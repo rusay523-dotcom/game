@@ -3,117 +3,105 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Я Качок RPG</title>
+<title>Качок PvP 2.0</title>
 <style>
-body { margin:0; font-family: Arial,sans-serif; background: url('gym_bg.png') center/cover no-repeat; height:100vh; color:white; text-align:center; display:flex; justify-content:center; align-items:center;}
-.game {position:relative; width:100%; max-width:400px; padding:20px; box-sizing:border-box;}
-#hero {width:120px; position:absolute; top:40%; left:30%; transform:translate(-50%,-50%) scale(1); transition: transform 0.2s ease, box-shadow 0.2s ease;}
-#hero.power { transform: translate(-50%, -50%) scale(1.2) rotate(-5deg);}
-.stats { margin-top:280px; font-size:18px; }
-.buttons { margin-top:10px; width:100%; max-width:320px;}
-button { width:100%; padding:12px; margin:6px 0; font-size:16px; border-radius:10px; border:none; cursor:pointer;}
-.train { background:#2196f3; color:white;}
-.energy { background:#ff9800; color:white;}
-.event { background:#4caf50; color:white;}
-.pvp { background:#e91e63; color:white;}
-.leaderboard { margin-top:10px; font-size:16px; text-align:left; }
-.progress-container { width:100%; background:rgba(255,255,255,0.2); border-radius:10px; margin-top:5px; height:15px;}
-.progress-bar { width:0%; height:100%; background:#ffeb3b; border-radius:10px; transition: width 0.3s ease; }
+body {margin:0; font-family:Arial,sans-serif; background:url('gym_bg.png') center/cover no-repeat; height:100vh; color:white; text-align:center; display:flex; justify-content:center; align-items:center;}
+.game {position:relative; width:100%; max-width:500px; padding:20px; box-sizing:border-box;}
+#hero,#enemy {width:120px; position:absolute; top:40%; transition: transform 0.2s ease, box-shadow 0.2s ease;}
+#hero {left:25%; transform:translate(-50%,-50%) scale(1);}
+#enemy {left:75%; transform:translate(-50%,-50%) scale(1);}
+#hero.power {transform:translate(-50%, -50%) scale(1.2) rotate(-5deg);}
+#enemy.hit {transform:translate(-50%,-50%) scale(1.1); box-shadow:0 0 20px red;}
+.stats {margin-top:280px; font-size:18px;}
+.buttons {margin-top:10px; width:100%; max-width:320px;}
+button {width:100%; padding:12px; margin:6px 0; font-size:16px; border-radius:10px; border:none; cursor:pointer;}
+.attack {background:#f44336; color:white;}
+.defend {background:#4caf50; color:white;}
+.energy {background:#ff9800; color:white;}
+.train {background:#2196f3; color:white;}
+.flash {position:absolute; width:50px; height:50px; border-radius:50%; background:yellow; opacity:0.7; pointer-events:none;}
 </style>
 </head>
 <body>
 
 <div class="game">
-<h1>💪 Качок RPG</h1>
+<h1>💪 Качок PvP 2.0</h1>
 <img id="hero" src="hero.png" alt="Персонаж">
+<img id="enemy" src="https://via.placeholder.com/120x120.png?text=Враг" alt="Враг">
 
 <div class="stats">
-🔥 Сила: <span id="strength">1</span><br>
-🏋️‍♂️ Выносливость: <span id="stamina">1</span><br>
-⚡ Ловкость: <span id="agility">1</span><br>
-🏆 Очки: <span id="points">0</span>
-<div class="progress-container">
-    <div id="strengthBar" class="progress-bar"></div>
-</div>
+💪 Сила: <span id="playerStr">5</span><br>
+❤️ HP: <span id="playerHP">20</span><br>
+⚡ Ловкость: <span id="playerAg">3</span><br>
+💪 Враг сила: <span id="enemyStr">5</span><br>
+❤️ Враг HP: <span id="enemyHP">20</span><br>
+⚡ Враг ловкость: <span id="enemyAg">3</span>
 </div>
 
 <div class="buttons">
-<button class="train" onclick="train()">Тренироваться</button>
-<button class="energy" onclick="energy()">Энергетик +2</button>
-<button class="event" onclick="randomEvent()">Случайное событие</button>
-<button class="pvp" onclick="battle()">Сразиться с врагом</button>
-</div>
-
-<div class="leaderboard">
-<h2>🏅 Таблица рекордов</h2>
-<ol id="leaderboardList"></ol>
+<button class="attack" onclick="playerMove('attack')">Атака</button>
+<button class="defend" onclick="playerMove('defend')">Защита</button>
+<button class="energy" onclick="playerMove('energy')">Энергетик</button>
+<button class="train" onclick="playerMove('train')">Тренировка</button>
 </div>
 </div>
 
 <script>
-let strength=1, stamina=1, agility=1, points=0;
+let player={hp:20,str:5,ag:3};
+let enemy={hp:20,str:5,ag:3};
 const hero=document.getElementById("hero");
-const strengthEl=document.getElementById("strength");
-const staminaEl=document.getElementById("stamina");
-const agilityEl=document.getElementById("agility");
-const pointsEl=document.getElementById("points");
-const leaderboardList=document.getElementById("leaderboardList");
-const strengthBar=document.getElementById("strengthBar");
+const enemyEl=document.getElementById("enemy");
+const playerHP=document.getElementById("playerHP");
+const playerStr=document.getElementById("playerStr");
+const playerAg=document.getElementById("playerAg");
+const enemyHP=document.getElementById("enemyHP");
+const enemyStr=document.getElementById("enemyStr");
+const enemyAg=document.getElementById("enemyAg");
 
-function updateHeroVisual(){
-    // рост мышц через scale
-    let scale = 1 + strength*0.05;
-    hero.style.transform=`translate(-50%, -50%) scale(${scale})`;
-    // тень и свечение при силе > 20
-    if(strength>=20){
-        hero.style.boxShadow=`0 0 20px 5px yellow`;
-    } else hero.style.boxShadow=`0 0 0px transparent`;
-}
-
+function flashEffect(x,y){ const f=document.createElement("div"); f.className="flash"; f.style.left=x-25+"px"; f.style.top=y-25+"px"; document.body.appendChild(f); setTimeout(()=>document.body.removeChild(f),200);}
 function animateHero(){ hero.classList.add("power"); setTimeout(()=>hero.classList.remove("power"),200);}
-function train(){ strength++; stamina++; agility++; points++; updateStats(); animateHero(); updateHeroVisual();}
-function energy(){ strength+=2; stamina+=2; agility+=2; points++; updateStats(); animateHero(); updateHeroVisual();}
-function randomEvent(){
-    const e=Math.floor(Math.random()*3);
-    if(e==0){strength+=3; alert("💥 Сила +3!");}
-    else if(e==1){stamina+=3; alert("🏋️‍♂️ Выносливость +3!");}
-    else{agility+=3; alert("⚡ Ловкость +3!");}
-    points+=2; updateStats(); animateHero(); updateHeroVisual();
-}
-
+function animateEnemy(){ enemyEl.classList.add("hit"); setTimeout(()=>enemyEl.classList.remove("hit"),200);}
 function updateStats(){
-    strengthEl.textContent=strength;
-    staminaEl.textContent=stamina;
-    agilityEl.textContent=agility;
-    pointsEl.textContent=points;
-    let progressPercent=Math.min((strength%10)*10,100);
-    strengthBar.style.width=progressPercent+"%";
+    playerHP.textContent=player.hp; playerStr.textContent=player.str; playerAg.textContent=player.ag;
+    enemyHP.textContent=enemy.hp; enemyStr.textContent=enemy.str; enemyAg.textContent=enemy.ag;
+}
+function checkWin(){
+    if(player.hp<=0){ alert("😢 Ты проиграл!"); resetGame();}
+    else if(enemy.hp<=0){ alert("🏆 Победа!"); resetGame();}
+}
+function resetGame(){ player={hp:20,str:5,ag:3}; enemy={hp:20,str:5,ag:3}; updateStats(); }
+
+function calculateDamage(attacker,defender){
+    let base=attacker.str * (0.8 + Math.random()*0.4);
+    let dodge=Math.random()*10;
+    if(dodge<defender.ag){ base=0; } // уклонение
+    return Math.floor(base);
 }
 
-function saveLeaderboard(){
-    let leaderboard=JSON.parse(localStorage.getItem('leaderboard')||"[]");
-    leaderboard.push({points,strength,stamina,agility});
-    leaderboard.sort((a,b)=>b.points-a.points);
-    if(leaderboard.length>5) leaderboard=leaderboard.slice(0,5);
-    localStorage.setItem('leaderboard',JSON.stringify(leaderboard));
-    renderLeaderboard();
+function enemyMove(){
+    // умный ИИ
+    let move;
+    if(enemy.hp<=5 && enemy.str<player.str){ move=Math.random()<0.7?'energy':'defend'; }
+    else if(player.hp<=5){ move=Math.random()<0.7?'attack':'train'; }
+    else{ move=Math.random()<0.5?'attack':'train'; }
+
+    if(move==='attack'){ let dmg=calculateDamage(enemy,player); player.hp-=dmg; animateEnemy(); flashEffect(hero.getBoundingClientRect().left+60,hero.getBoundingClientRect().top+60);}
+    else if(move==='defend'){ enemy.str+=1; }
+    else if(move==='energy'){ enemy.str+=2; }
+    else if(move==='train'){ enemy.str+=1; enemy.hp+=1; }
+    updateStats(); checkWin();
 }
 
-function renderLeaderboard(){
-    const leaderboard=JSON.parse(localStorage.getItem('leaderboard')||"[]");
-    leaderboardList.innerHTML="";
-    leaderboard.forEach(entry=>{
-        const li=document.createElement("li");
-        li.textContent=`🏆 ${entry.points} | 💪 ${entry.strength} | 🏋️‍♂️ ${entry.stamina} | ⚡ ${entry.agility}`;
-        leaderboardList.appendChild(li);
-    });
+function playerMove(move){
+    if(move==='attack'){ let dmg=calculateDamage(player,enemy); enemy.hp-=dmg; animateHero(); flashEffect(enemyEl.getBoundingClientRect().left+60,enemyEl.getBoundingClientRect().top+60);}
+    else if(move==='defend'){ player.str+=1; }
+    else if(move==='energy'){ player.str+=2; }
+    else if(move==='train'){ player.str+=1; player.hp+=1; player.ag+=1; }
+
+    updateStats(); checkWin();
+    setTimeout(enemyMove,500);
 }
-
-// Тут можно добавить PvP и врагов как в предыдущих версиях
-
-hero.onclick=train;
-updateHeroVisual();
-renderLeaderboard();
+updateStats();
 </script>
 
 </body>
