@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Я Качок 2.0</title>
+<title>Я Качок 5.0</title>
 <style>
 body {
     margin: 0;
@@ -16,7 +16,6 @@ body {
     justify-content: center;
     align-items: center;
 }
-
 .game {
     position: relative;
     width: 100%;
@@ -24,130 +23,150 @@ body {
     padding: 20px;
     box-sizing: border-box;
 }
-
-#hero {
-    width: 260px;
-    cursor: pointer;
-    user-select: none;
+#hero, .enemy {
+    width: 120px;
     position: absolute;
-    top: 45%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 2;
-    transition: transform 0.12s ease;
+    top: 40%;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-
-#hero.power {
-    transform: translate(-50%, -50%) scale(1.1) rotate(-1deg);
-}
-
-.stats {
-    margin-top: 320px;
-    font-size: 20px;
-}
-
-.buttons {
-    margin-top: 10px;
-    width: 100%;
-    max-width: 320px;
-}
-
-button {
-    width: 100%;
-    padding: 15px;
-    margin: 8px 0;
-    font-size: 18px;
-    border-radius: 12px;
-    border: none;
-    cursor: pointer;
-}
-
-.train {
-    background: #2196f3;
-    color: white;
-}
-
-.energy {
-    background: #ff9800;
-    color: white;
-}
-
-.event {
-    background: #4caf50;
-    color: white;
-}
+#hero { left: 30%; transform: translate(-50%, -50%);}
+.enemy { left: 70%; transform: translate(-50%, -50%); opacity: 0.8;}
+#hero.power { transform: translate(-50%, -50%) scale(1.3) rotate(-5deg); }
+.enemy.hit { transform: translate(-50%, -50%) scale(1.2); opacity: 1; box-shadow: 0 0 20px red;}
+.stats { margin-top: 280px; font-size: 18px; }
+.buttons { margin-top: 10px; width: 100%; max-width: 320px; }
+button { width: 100%; padding: 12px; margin: 6px 0; font-size: 16px; border-radius: 10px; border: none; cursor: pointer; }
+.train { background: #2196f3; color: white; }
+.energy { background: #ff9800; color: white; }
+.event { background: #4caf50; color: white; }
+.pvp { background: #e91e63; color: white; }
+.leaderboard { margin-top: 10px; font-size: 16px; text-align: left; }
+.flash { position: absolute; width: 50px; height: 50px; border-radius: 50%; background: yellow; opacity: 0.7; pointer-events: none; }
 </style>
 </head>
 <body>
 
 <div class="game">
-
-<h1>💪 Качок 2.0</h1>
+<h1>💪 Качок 5.0</h1>
 
 <img id="hero" src="hero.png" alt="Персонаж">
+<div id="enemies"></div>
 
 <div class="stats">
-    🔥 Сила: <span id="strength">1</span><br>
-    🏋️‍♂️ Выносливость: <span id="stamina">1</span><br>
-    ⚡ Ловкость: <span id="agility">1</span><br>
-    🏆 Очки: <span id="points">0</span>
+🔥 Сила: <span id="strength">1</span><br>
+🏋️‍♂️ Выносливость: <span id="stamina">1</span><br>
+⚡ Ловкость: <span id="agility">1</span><br>
+🏆 Очки: <span id="points">0</span>
 </div>
 
 <div class="buttons">
-    <button class="train" onclick="train()">Тренироваться</button>
-    <button class="energy" onclick="energy()">Энергетик +2</button>
-    <button class="event" onclick="randomEvent()">Случайное событие</button>
+<button class="train" onclick="train()">Тренироваться</button>
+<button class="energy" onclick="energy()">Энергетик +2</button>
+<button class="event" onclick="randomEvent()">Случайное событие</button>
+<button class="pvp" onclick="battle()">Сразиться с врагом</button>
 </div>
 
+<div class="leaderboard">
+<h2>🏅 Таблица рекордов</h2>
+<ol id="leaderboardList"></ol>
+</div>
 </div>
 
 <script>
-let strength = 1;
-let stamina = 1;
-let agility = 1;
-let points = 0;
-
+let strength = 1, stamina = 1, agility = 1, points = 0;
 const hero = document.getElementById("hero");
+const enemiesDiv = document.getElementById("enemies");
 const strengthEl = document.getElementById("strength");
 const staminaEl = document.getElementById("stamina");
 const agilityEl = document.getElementById("agility");
 const pointsEl = document.getElementById("points");
+const leaderboardList = document.getElementById("leaderboardList");
 
-function animate() {
-    hero.classList.add("power");
-    setTimeout(() => hero.classList.remove("power"), 120);
+function animateHero() { hero.classList.add("power"); setTimeout(()=>hero.classList.remove("power"),200);}
+function animateEnemy(enemy){ enemy.classList.add("hit"); setTimeout(()=>enemy.classList.remove("hit"),200);}
+function flashEffect(x,y){
+    const f=document.createElement("div");
+    f.className="flash"; f.style.left=x-25+"px"; f.style.top=y-25+"px";
+    document.body.appendChild(f);
+    setTimeout(()=>document.body.removeChild(f),200);
 }
 
-function train() {
-    strength++;
-    stamina++;
-    agility++;
-    points++;
-    updateStats();
-    animate();
+function train(){ strength++; stamina++; agility++; points++; updateStats(); animateHero();}
+function energy(){ strength+=2; stamina+=2; agility+=2; points++; updateStats(); animateHero();}
+function randomEvent(){
+    const e=Math.floor(Math.random()*3);
+    if(e==0){strength+=3; alert("💥 Сила +3!");}
+    else if(e==1){stamina+=3; alert("🏋️‍♂️ Выносливость +3!");}
+    else{agility+=3; alert("⚡ Ловкость +3!");}
+    points+=2; updateStats(); animateHero();
 }
 
-function energy() {
-    strength += 2;
-    stamina += 2;
-    agility += 2;
-    points++;
-    updateStats();
-    animate();
+function battle(){
+    const enemyData=[
+        {name:"Брут",img:"https://via.placeholder.com/120x120.png?text=Брут"},
+        {name:"Хардкор",img:"https://via.placeholder.com/120x120.png?text=Хардкор"},
+        {name:"Мясо",img:"https://via.placeholder.com/120x120.png?text=Мясо"},
+        {name:"Силач",img:"https://via.placeholder.com/120x120.png?text=Силач"}
+    ];
+    const e=enemyData[Math.floor(Math.random()*enemyData.length)];
+    const enemy=document.createElement("img");
+    enemy.src=e.img; enemy.className="enemy"; enemiesDiv.appendChild(enemy);
+    alert(`Ты сражаешься с ${e.name}!`);
+    const enemyStats={strength:Math.floor(Math.random()*10+1),stamina:Math.floor(Math.random()*10+1),agility:Math.floor(Math.random()*10+1)};
+    let playerScore=strength+stamina+agility;
+    let enemyScore=enemyStats.strength+enemyStats.stamina+enemyStats.agility;
+    
+    let rounds=3,i=0;
+    let fightInterval=setInterval(()=>{
+        if(i>=rounds){ clearInterval(fightInterval); finishBattle(playerScore,enemyScore,enemy); return;}
+        animateHero(); animateEnemy(enemy);
+        const heroRect=hero.getBoundingClientRect();
+        const enemyRect=enemy.getBoundingClientRect();
+        flashEffect((heroRect.left+heroRect.right)/2,(heroRect.top+heroRect.bottom)/2);
+        flashEffect((enemyRect.left+enemyRect.right)/2,(enemyRect.top+enemyRect.bottom)/2);
+        i++;
+    },400);
 }
 
-function randomEvent() {
-    const event = Math.floor(Math.random() * 3);
-    switch(event) {
-        case 0:
-            strength += 3;
-            alert("💥 Сила подскочила на +3!");
-            break;
-        case 1:
-            stamina += 3;
-            alert("🏋️‍♂️ Выносливость подскочила на +3!");
-            break;
-        case 2:
-            agility += 3;
-            alert("⚡ Ловкость подскочила на +3!");
-            break
+function finishBattle(playerScore,enemyScore,enemy){
+    if(playerScore>=enemyScore){
+        alert(`🏆 Победа! Ты ${playerScore} vs Враг ${enemyScore}`);
+        points+=5+Math.floor(Math.random()*3);
+        animateHero();
+    } else { alert(`😢 Поражение. Ты ${playerScore} vs Враг ${enemyScore}`); points+=1; }
+    updateStats(); saveLeaderboard();
+    enemy.remove();
+}
+
+function updateStats(){
+    strengthEl.textContent=strength;
+    staminaEl.textContent=stamina;
+    agilityEl.textContent=agility;
+    pointsEl.textContent=points;
+}
+
+function saveLeaderboard(){
+    let leaderboard=JSON.parse(localStorage.getItem('leaderboard')||"[]");
+    leaderboard.push({points,strength,stamina,agility});
+    leaderboard.sort((a,b)=>b.points-a.points);
+    if(leaderboard.length>5) leaderboard=leaderboard.slice(0,5);
+    localStorage.setItem('leaderboard',JSON.stringify(leaderboard));
+    renderLeaderboard();
+}
+
+function renderLeaderboard(){
+    const leaderboard=JSON.parse(localStorage.getItem('leaderboard')||"[]");
+    leaderboardList.innerHTML="";
+    leaderboard.forEach(entry=>{
+        const li=document.createElement("li");
+        li.textContent=`🏆 ${entry.points} | 💪 ${entry.strength} | 🏋️‍♂️ ${entry.stamina} | ⚡ ${entry.agility}`;
+        leaderboardList.appendChild(li);
+    });
+}
+
+hero.onclick=train;
+renderLeaderboard();
+</script>
+
+</body>
+</html>
