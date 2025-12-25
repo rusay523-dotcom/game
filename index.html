@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Я Качок</title>
+<title>Я Качок PvP</title>
 <style>
 body {margin:0; font-family:Arial,sans-serif; background:url('gym_bg.png') center/cover no-repeat; height:100vh; color:white; text-align:center; display:flex; justify-content:center; align-items:center;}
 .menu, .game {width:100%; max-width:500px; padding:20px; box-sizing:border-box;}
@@ -12,6 +12,11 @@ button {width:100%; padding:12px; margin:10px 0; font-size:18px; border-radius:1
 .aiBtn {background:#ff9800; color:white;}
 .pvpBtn {background:#e91e63; color:white;}
 .hidden {display:none;}
+.game img{width:120px; position:absolute; top:40%; transition: transform 0.2s;}
+#hero.jump, #enemy.jump { transform: translate(-50%,-55%); }
+.stats {margin-top:250px;}
+.buttons {position:absolute; bottom:20px; left:50%; transform:translateX(-50%); width:90%; max-width:320px;}
+.flash {position:absolute; width:50px; height:50px; border-radius:50%; background:yellow; opacity:0.7; pointer-events:none;}
 </style>
 </head>
 <body>
@@ -20,24 +25,26 @@ button {width:100%; padding:12px; margin:10px 0; font-size:18px; border-radius:1
 <h1>💪 Я Качок</h1>
 <button class="trainBtn" onclick="startTraining()">Тренировка</button>
 <button class="aiBtn" onclick="startPvP_AI()">PvP с ИИ</button>
-<button class="pvpBtn" onclick="startPvP_Player()">PvP с игроком / Топ</button>
+<button class="pvpBtn" onclick="startPvP_Player()">PvP онлайн / Топ</button>
 </div>
 
+<!-- Тренировка -->
 <div class="game hidden" id="trainingGame">
 <h2>🏋️‍♂️ Тренировка</h2>
-<img id="hero" src="hero.png" style="width:120px;position:absolute;top:40%;left:50%;transform:translate(-50%,-50%);transition:transform 0.2s;">
-<div style="margin-top:250px;">
+<img id="hero" src="hero.png" style="left:50%; transform:translate(-50%,-50%)">
+<div class="stats">
 🔥 Сила: <span id="power">1</span><br>
 🏆 Очки: <span id="points">0</span>
 </div>
 <button onclick="train()">Тренироваться</button>
 </div>
 
+<!-- PvP с ИИ -->
 <div class="game hidden" id="pvpGame">
 <h2>⚔ PvP с ИИ</h2>
-<img id="heroPvP" src="hero.png" style="width:120px;position:absolute;top:40%;left:25%;transform:translate(-50%,-50%);">
-<img id="enemyPvP" src="enemy.png" style="width:120px;position:absolute;top:40%;left:75%;transform:translate(-50%,-50%);">
-<div style="margin-top:250px;">
+<img id="heroPvP" src="hero.png" style="left:25%; transform:translate(-50%,-50%)">
+<img id="enemyPvP" src="enemy.png" style="left:75%; transform:translate(-50%,-50%)">
+<div class="stats">
 💪 Сила: <span id="playerStr">5</span><br>
 ❤️ HP: <span id="playerHP">20</span><br>
 ⚡ Ловкость: <span id="playerAg">3</span><br>
@@ -45,12 +52,33 @@ button {width:100%; padding:12px; margin:10px 0; font-size:18px; border-radius:1
 ❤️ Враг HP: <span id="enemyHP">20</span><br>
 ⚡ Враг ловкость: <span id="enemyAg">3</span>
 </div>
-<div style="position:absolute; bottom:20px; left:50%; transform:translateX(-50%); width:90%; max-width:320px;">
+<div class="buttons">
 <button onclick="playerMove('attack')">Атака</button>
 <button onclick="playerMove('defend')">Защита</button>
 <button onclick="playerMove('energy')">Энергетик</button>
 <button onclick="playerMove('train')">Тренировка</button>
 </div>
+</div>
+
+<!-- PvP онлайн -->
+<div class="game hidden" id="pvpPlayerGame">
+<h2>⚔ PvP онлайн</h2>
+<img id="heroP" src="hero.png" style="left:25%; transform:translate(-50%,-50%)">
+<img id="enemyP" src="enemy.png" style="left:75%; transform:translate(-50%,-50%)">
+<div class="stats">
+💪 Сила: <span id="playerPStr">5</span><br>
+❤️ HP: <span id="playerPHP">20</span><br>
+💪 Враг сила: <span id="enemyPStr">5</span><br>
+❤️ Враг HP: <span id="enemyPHP">20</span>
+</div>
+<div class="buttons">
+<button onclick="playerMoveOnline('attack')">Атака</button>
+<button onclick="playerMoveOnline('defend')">Защита</button>
+<button onclick="playerMoveOnline('energy')">Энергетик</button>
+<button onclick="playerMoveOnline('train')">Тренировка</button>
+</div>
+<h3>Топ игроков</h3>
+<ul id="topList"></ul>
 </div>
 
 <script>
@@ -59,17 +87,17 @@ function showMenu(){
     document.querySelector('.menu').classList.remove('hidden');
     document.getElementById('trainingGame').classList.add('hidden');
     document.getElementById('pvpGame').classList.add('hidden');
+    document.getElementById('pvpPlayerGame').classList.add('hidden');
 }
 
-// Тренировка
+// === Тренировка ===
 let power=1, points=0;
 function startTraining(){
     document.querySelector('.menu').classList.add('hidden');
     document.getElementById('trainingGame').classList.remove('hidden');
 }
 function train(){
-    power++;
-    points++;
+    power++; points++;
     document.getElementById('power').textContent=power;
     document.getElementById('points').textContent=points;
     const hero=document.getElementById('hero');
@@ -77,99 +105,54 @@ function train(){
     setTimeout(()=>hero.style.transform='translate(-50%,-50%)',200);
 }
 
-// PvP с ИИ
-function startPvP_AI(){
-    document.querySelector('.menu').classList.add('hidden');
-    document.getElementById('pvpGame').classList.remove('hidden');
-    resetPvP();
-}
-
-// PvP с игроком / топ (пока заглушка)
-function startPvP_Player(){
-    alert("Скоро будет PvP с реальным игроком и таблица топа!");
-}
-
-// Дальше сюда вставляем код PvP с ИИ (атака, защита, энергетик, тренировка, ИИ врага)
-// Для простоты я могу прямо в следующем шаге объединить весь текущий PvP код с этим меню
-function resetPvP(){
-    player={hp:20,str:5,ag:3};
-    enemy={hp:20,str:5,ag:3};
-    updateStatsPvP();
-}
-
+// === PvP с ИИ ===
 let player={hp:20,str:5,ag:3};
 let enemy={hp:20,str:5,ag:3};
-function updateStatsPvP(){
-    document.getElementById('playerHP').textContent=player.hp;
-    document.getElementById('playerStr').textContent=player.str;
-    document.getElementById('playerAg').textContent=player.ag;
-    document.getElementById('enemyHP').textContent=enemy.hp;
-    document.getElementById('enemyStr').textContent=enemy.str;
-    document.getElementById('enemyAg').textContent=enemy.ag;
-}
-
-function calculateDamage(attacker,defender){
-    let base=attacker.str*(0.8+Math.random()*0.4);
-    if(Math.random()*10<defender.ag) base=0;
-    return Math.floor(base);
-}
-
-function animateJump(id){
-    const el=document.getElementById(id);
-    el.style.transform='translate(-50%,-55%)';
-    setTimeout(()=>el.style.transform='translate(-50%,-50%)',200);
-}
-
-function flashEffect(x,y){
-    const f=document.createElement("div");
-    f.style.position="absolute"; f.style.width="50px"; f.style.height="50px";
-    f.style.borderRadius="50%"; f.style.background="yellow"; f.style.opacity="0.7";
-    f.style.left=x-25+"px"; f.style.top=y-25+"px";
-    document.body.appendChild(f);
-    setTimeout(()=>document.body.removeChild(f),200);
-}
-
-function playerMove(move){
-    if(move==='attack'){
-        let dmg=calculateDamage(player,enemy);
-        enemy.hp-=dmg;
-        animateJump('heroPvP');
-        flashEffect(document.getElementById('enemyPvP').getBoundingClientRect().left+60,
-                    document.getElementById('enemyPvP').getBoundingClientRect().top+60);
-    }
+function startPvP_AI(){ document.querySelector('.menu').classList.add('hidden'); document.getElementById('pvpGame').classList.remove('hidden'); resetPvP(); }
+function updateStatsPvP(){ document.getElementById('playerHP').textContent=player.hp; document.getElementById('playerStr').textContent=player.str; document.getElementById('playerAg').textContent=player.ag; document.getElementById('enemyHP').textContent=enemy.hp; document.getElementById('enemyStr').textContent=enemy.str; document.getElementById('enemyAg').textContent=enemy.ag; }
+function resetPvP(){ player={hp:20,str:5,ag:3}; enemy={hp:20,str:5,ag:3}; updateStatsPvP(); }
+function calculateDamage(attacker,defender){ let base=attacker.str*(0.8+Math.random()*0.4); if(Math.random()*10<defender.ag) base=0; return Math.floor(base); }
+function animateJump(id){ const el=document.getElementById(id); el.style.transform='translate(-50%,-55%)'; setTimeout(()=>el.style.transform='translate(-50%,-50%)',200); }
+function flashEffect(x,y){ const f=document.createElement("div"); f.style.position="absolute"; f.style.width="50px"; f.style.height="50px"; f.style.borderRadius="50%"; f.style.background="yellow"; f.style.opacity="0.7"; f.style.left=x-25+"px"; f.style.top=y-25+"px"; document.body.appendChild(f); setTimeout(()=>document.body.removeChild(f),200); }
+function playerMove(move){ 
+    if(move==='attack'){ enemy.hp-=calculateDamage(player,enemy); animateJump('heroPvP'); flashEffect(document.getElementById('enemyPvP').getBoundingClientRect().left+60,document.getElementById('enemyPvP').getBoundingClientRect().top+60);}
     else if(move==='defend'){ player.str+=1; animateJump('heroPvP'); }
     else if(move==='energy'){ player.str+=2; animateJump('heroPvP'); }
     else if(move==='train'){ player.str+=1; player.hp+=1; player.ag+=1; animateJump('heroPvP'); }
-
-    updateStatsPvP();
-    setTimeout(enemyMovePvP,500);
-    checkWinPvP();
+    updateStatsPvP(); setTimeout(enemyMovePvP,500); checkWinPvP();
 }
+function enemyMovePvP(){ let move; if(enemy.hp<=5 && enemy.str<player.str) move=Math.random()<0.7?'energy':'defend'; else if(player.hp<=5) move=Math.random()<0.7?'attack':'train'; else move=Math.random()<0.5?'attack':'train'; if(move==='attack'){ player.hp-=calculateDamage(enemy,player); animateJump('enemyPvP'); flashEffect(document.getElementById('heroPvP').getBoundingClientRect().left+60,document.getElementById('heroPvP').getBoundingClientRect().top+60);} else if(move==='defend') enemy.str+=1; else if(move==='energy') enemy.str+=2; else if(move==='train'){ enemy.str+=1; enemy.hp+=1; } updateStatsPvP(); checkWinPvP(); }
+function checkWinPvP(){ if(player.hp<=0){ alert("😢 Ты проиграл!"); showMenu(); } else if(enemy.hp<=0){ alert("🏆 Победа!"); showMenu(); } }
 
-function enemyMovePvP(){
-    let move;
-    if(enemy.hp<=5 && enemy.str<player.str) move=Math.random()<0.7?'energy':'defend';
-    else if(player.hp<=5) move=Math.random()<0.7?'attack':'train';
-    else move=Math.random()<0.5?'attack':'train';
-
-    if(move==='attack'){
-        let dmg=calculateDamage(enemy,player);
-        player.hp-=dmg;
-        animateJump('enemyPvP');
-        flashEffect(document.getElementById('heroPvP').getBoundingClientRect().left+60,
-                    document.getElementById('heroPvP').getBoundingClientRect().top+60);
+// === PvP онлайн через WebSocket ===
+let ws = new WebSocket('ws://localhost:8080');
+let playerId = 'Игрок_' + Math.floor(Math.random()*1000);
+ws.onopen = ()=>console.log("Подключено к серверу PvP");
+ws.onmessage = function(event){ 
+    let msg = JSON.parse(event.data);
+    if(msg.type==='move'){
+        document.getElementById('enemyPHP').textContent = msg.enemy.hp;
+        document.getElementById('enemyPStr').textContent = msg.enemy.str;
+        animateJump('enemyP');
     }
-    else if(move==='defend') enemy.str+=1;
-    else if(move==='energy') enemy.str+=2;
-    else if(move==='train'){ enemy.str+=1; enemy.hp+=1; }
-
-    updateStatsPvP();
-    checkWinPvP();
-}
-
-function checkWinPvP(){
-    if(player.hp<=0){ alert("😢 Ты проиграл!"); showMenu(); }
-    else if(enemy.hp<=0){ alert("🏆 Победа!"); showMenu(); }
+    else if(msg.type==='top'){
+        const ul = document.getElementById('topList'); ul.innerHTML=''; for(let key in msg.data){ const li=document.createElement('li'); li.textContent=`${key}: ${msg.data[key]} побед`; ul.appendChild(li);}
+    }
+};
+function startPvP_Player(){ document.querySelector('.menu').classList.add('hidden'); document.getElementById('pvpPlayerGame').classList.remove('hidden'); }
+function playerMoveOnline(move){
+    let player={hp: parseInt(document.getElementById('playerPHP').textContent), str: parseInt(document.getElementById('playerPStr').textContent)};
+    let enemy={hp: parseInt(document.getElementById('enemyPHP').textContent), str: parseInt(document.getElementById('enemyPStr').textContent)};
+    if(move==='attack') enemy.hp -= Math.floor(Math.random()*3+1+player.str*0.5);
+    else if(move==='defend') player.str +=1;
+    else if(move==='energy') player.str +=2;
+    else if(move==='train'){ player.str+=1; player.hp+=1; }
+    ws.send(JSON.stringify({type:'move', playerId, player, enemy}));
+    document.getElementById('playerPHP').textContent = player.hp;
+    document.getElementById('playerPStr').textContent = player.str;
+    animateJump('heroP');
+    if(enemy.hp<=0){ ws.send(JSON.stringify({type:'win', winner:playerId})); alert("🏆 Победа!"); showMenu(); }
+    else if(player.hp<=0){ ws.send(JSON.stringify({type:'win', winner:'enemy'})); alert("😢 Ты проиграл!"); showMenu(); }
 }
 </script>
 
