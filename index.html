@@ -12,28 +12,19 @@ body {
     background: url('gym_bg.png') center/cover no-repeat;
     height: 100vh;
     color: white;
-    text-align: center;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    text-align: center;
 }
 
 .game {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    height: 100%;
+    position: relative;
+    width: 100%;
+    max-width: 400px;
     padding: 20px;
     box-sizing: border-box;
-    background: none; /* убрали полупрозрачный фон */
-    width: 100%;
-    max-width: 400px; /* ограничение ширины для мобильных */
-}
-
-h1 {
-    margin: 10px 0;
 }
 
 #hero {
@@ -41,20 +32,20 @@ h1 {
     transition: transform 0.12s ease;
     cursor: pointer;
     user-select: none;
-    position: relative;
-    z-index: 2; /* поверх всех элементов */
-}
-
-#hero.power {
-    transform: scale(1.1) rotate(-1deg);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
 }
 
 .stats {
+    margin-top: 340px; /* чтобы текст был под персонажем */
     font-size: 22px;
-    margin: 10px 0;
 }
 
 .buttons {
+    margin-top: 10px;
     width: 100%;
     max-width: 320px;
 }
@@ -78,6 +69,7 @@ button {
     background: #ff9800;
     color: white;
 }
+
 </style>
 </head>
 
@@ -134,3 +126,4 @@ hero.onclick = train;
 
 </body>
 </html>
+
