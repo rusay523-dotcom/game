@@ -3,8 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Я Качок</title>
-
+<title>Я Качок 2.0</title>
 <style>
 body {
     margin: 0;
@@ -12,11 +11,10 @@ body {
     background: url('gym_bg.png') center/cover no-repeat;
     height: 100vh;
     color: white;
+    text-align: center;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    text-align: center;
 }
 
 .game {
@@ -29,19 +27,23 @@ body {
 
 #hero {
     width: 260px;
-    transition: transform 0.12s ease;
     cursor: pointer;
     user-select: none;
     position: absolute;
-    top: 43%;
+    top: 45%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 2;
+    transition: transform 0.12s ease;
+}
+
+#hero.power {
+    transform: translate(-50%, -50%) scale(1.1) rotate(-1deg);
 }
 
 .stats {
-    margin-top: 340px; /* чтобы текст был под персонажем */
-    font-size: 22px;
+    margin-top: 320px;
+    font-size: 20px;
 }
 
 .buttons {
@@ -70,34 +72,45 @@ button {
     color: white;
 }
 
+.event {
+    background: #4caf50;
+    color: white;
+}
 </style>
 </head>
-
 <body>
+
 <div class="game">
 
-<h1>💪 Тапай, чтобы качаться</h1>
+<h1>💪 Качок 2.0</h1>
 
 <img id="hero" src="hero.png" alt="Персонаж">
 
 <div class="stats">
-    🔥 Сила: <span id="power">1</span><br>
+    🔥 Сила: <span id="strength">1</span><br>
+    🏋️‍♂️ Выносливость: <span id="stamina">1</span><br>
+    ⚡ Ловкость: <span id="agility">1</span><br>
     🏆 Очки: <span id="points">0</span>
 </div>
 
 <div class="buttons">
     <button class="train" onclick="train()">Тренироваться</button>
     <button class="energy" onclick="energy()">Энергетик +2</button>
+    <button class="event" onclick="randomEvent()">Случайное событие</button>
 </div>
 
 </div>
 
 <script>
-let power = 1;
+let strength = 1;
+let stamina = 1;
+let agility = 1;
 let points = 0;
 
 const hero = document.getElementById("hero");
-const powerEl = document.getElementById("power");
+const strengthEl = document.getElementById("strength");
+const staminaEl = document.getElementById("stamina");
+const agilityEl = document.getElementById("agility");
 const pointsEl = document.getElementById("points");
 
 function animate() {
@@ -106,27 +119,35 @@ function animate() {
 }
 
 function train() {
-    power++;
+    strength++;
+    stamina++;
+    agility++;
     points++;
-    powerEl.textContent = power;
-    pointsEl.textContent = points;
+    updateStats();
     animate();
 }
 
 function energy() {
-    power += 2;
+    strength += 2;
+    stamina += 2;
+    agility += 2;
     points++;
-    powerEl.textContent = power;
-    pointsEl.textContent = points;
+    updateStats();
     animate();
 }
 
-hero.onclick = train;
-</script>
-
-</body>
-</html>
-
-
-
-
+function randomEvent() {
+    const event = Math.floor(Math.random() * 3);
+    switch(event) {
+        case 0:
+            strength += 3;
+            alert("💥 Сила подскочила на +3!");
+            break;
+        case 1:
+            stamina += 3;
+            alert("🏋️‍♂️ Выносливость подскочила на +3!");
+            break;
+        case 2:
+            agility += 3;
+            alert("⚡ Ловкость подскочила на +3!");
+            break
