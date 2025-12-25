@@ -13,6 +13,10 @@ body {
     height: 100vh;
     color: white;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .game {
@@ -23,7 +27,9 @@ body {
     height: 100%;
     padding: 20px;
     box-sizing: border-box;
-    background: rgba(0,0,0,0.45);
+    background: none; /* убрали полупрозрачный фон */
+    width: 100%;
+    max-width: 400px; /* ограничение ширины для мобильных */
 }
 
 h1 {
@@ -35,6 +41,8 @@ h1 {
     transition: transform 0.12s ease;
     cursor: pointer;
     user-select: none;
+    position: relative;
+    z-index: 2; /* поверх всех элементов */
 }
 
 #hero.power {
@@ -78,7 +86,7 @@ button {
 
 <h1>💪 Тапай, чтобы качаться</h1>
 
-<img id="hero" src="hero.png">
+<img id="hero" src="hero.png" alt="Персонаж">
 
 <div class="stats">
     🔥 Сила: <span id="power">1</span><br>
