@@ -1,125 +1,128 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Тапай, чтобы качаться!</title>
-    <style>
-        /* Фон игры */
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-image: url('https://raw.githubusercontent.com/rusay523-dotcom/game/main/photo_2025-12-25_01-08-07.jpg');  /* Вставим фон для игры */
-            background-size: cover;
-            padding: 20px;
-            color: white;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Я Качок</title>
 
-        /* Стили персонажа */
-        #character {
-            width: 150px;
-            height: 150px;
-            background-image: url('https://raw.githubusercontent.com/rusay523-dotcom/game/main/photo_2025-12-25_01-08-07.jpg');  /* Персонаж */
-            background-size: cover;
-            border-radius: 50%;
-            margin: 20px auto;
-            cursor: pointer;
-            transition: transform 0.2s ease-in-out;
-        }
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: url('gym_bg.png') center/cover no-repeat;
+    height: 100vh;
+    color: white;
+    text-align: center;
+}
 
-        /* Кнопка для тренировки */
-        button {
-            padding: 10px 20px;
-            background-color: #008CBA;
-            color: white;
-            font-size: 16px;
-            border: none;
-            cursor: pointer;
-            margin-top: 10px;
-        }
+.game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    background: rgba(0,0,0,0.45);
+}
 
-        button:hover {
-            background-color: #005f73;
-        }
+h1 {
+    margin: 10px 0;
+}
 
-        /* Анимация для персонажа */
-        @keyframes grow {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
+#hero {
+    width: 260px;
+    transition: transform 0.12s ease;
+    cursor: pointer;
+    user-select: none;
+}
 
-        /* Стиль текста */
-        h1 {
-            font-size: 24px;
-        }
+#hero.power {
+    transform: scale(1.1) rotate(-1deg);
+}
 
-        p {
-            font-size: 18px;
-        }
-    </style>
+.stats {
+    font-size: 22px;
+    margin: 10px 0;
+}
+
+.buttons {
+    width: 100%;
+    max-width: 320px;
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    margin: 8px 0;
+    font-size: 18px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+}
+
+.train {
+    background: #2196f3;
+    color: white;
+}
+
+.energy {
+    background: #ff9800;
+    color: white;
+}
+</style>
 </head>
+
 <body>
-    <h1>Тапай, чтобы качаться!</h1>
-    <div id="character"></div>
-    <p>Сила: <span id="strength">1</span></p>
-    <p>Очки: <span id="points">0</span></p>
+<div class="game">
 
-    <button id="trainButton">Тренироваться</button>
-    <button id="energyBoost">Энергетик (Усилить на 2)</button>
+<h1>💪 Тапай, чтобы качаться</h1>
 
-    <script>
-        let strength = 1;
-        let points = 0;
-        const strengthElement = document.getElementById('strength');
-        const pointsElement = document.getElementById('points');
-        const character = document.getElementById('character');
-        const trainButton = document.getElementById('trainButton');
-        const energyBoostButton = document.getElementById('energyBoost');
+<img id="hero" src="hero.png">
 
-        // Функция увеличения силы при клике на персонажа
-        character.addEventListener('click', function() {
-            strength++;  // Увеличиваем силу
-            points++;    // Увеличиваем очки
-            strengthElement.innerText = strength;
-            pointsElement.innerText = points;
+<div class="stats">
+    🔥 Сила: <span id="power">1</span><br>
+    🏆 Очки: <span id="points">0</span>
+</div>
 
-            // Анимация увеличения персонажа
-            character.style.animation = 'grow 0.5s ease';
-            setTimeout(() => {
-                character.style.animation = '';  // Сброс анимации
-            }, 500);
-        });
+<div class="buttons">
+    <button class="train" onclick="train()">Тренироваться</button>
+    <button class="energy" onclick="energy()">Энергетик +2</button>
+</div>
 
-        // Функция тренировки с кнопки
-        trainButton.addEventListener('click', function() {
-            strength++;
-            points++;
-            strengthElement.innerText = strength;
-            pointsElement.innerText = points;
+</div>
 
-            // Анимация увеличения персонажа при тренировке
-            character.style.animation = 'grow 0.5s ease';
-            setTimeout(() => {
-                character.style.animation = '';  // Сброс анимации
-            }, 500);
-        });
+<script>
+let power = 1;
+let points = 0;
 
-        // Кнопка усиления с энергетиком
-        energyBoostButton.addEventListener('click', function() {
-            strength += 2;  // Усиливаем на 2
-            points++;       // Очки +1
-            strengthElement.innerText = strength;
-            pointsElement.innerText = points;
+const hero = document.getElementById("hero");
+const powerEl = document.getElementById("power");
+const pointsEl = document.getElementById("points");
 
-            // Анимация увеличения персонажа
-            character.style.animation = 'grow 0.5s ease';
-            setTimeout(() => {
-                character.style.animation = '';  // Сброс анимации
-            }, 500);
-        });
-    </script>
+function animate() {
+    hero.classList.add("power");
+    setTimeout(() => hero.classList.remove("power"), 120);
+}
+
+function train() {
+    power++;
+    points++;
+    powerEl.textContent = power;
+    pointsEl.textContent = points;
+    animate();
+}
+
+function energy() {
+    power += 2;
+    points++;
+    powerEl.textContent = power;
+    pointsEl.textContent = points;
+    animate();
+}
+
+hero.onclick = train;
+</script>
+
 </body>
 </html>
-
-
