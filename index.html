@@ -3,35 +3,39 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Я Качок PvP</title>
+<title>Я Качок ULTRA</title>
 <style>
-body {margin:0; font-family:Arial,sans-serif; background:url('gym_bg.png') center/cover no-repeat; height:100vh; color:white; text-align:center; display:flex; justify-content:center; align-items:center;}
+body {margin:0;font-family:Arial,sans-serif;background:url('gym_bg.png') center/cover no-repeat;height:100vh;color:white;overflow:hidden;text-align:center;}
 .menu, .game {width:100%; max-width:500px; padding:20px; box-sizing:border-box;}
-button {width:100%; padding:12px; margin:10px 0; font-size:18px; border-radius:12px; border:none; cursor:pointer;}
-.trainBtn {background:#2196f3; color:white;}
-.aiBtn {background:#ff9800; color:white;}
-.pvpBtn {background:#e91e63; color:white;}
-.hidden {display:none;}
-.game img{width:120px; position:absolute; top:40%; transition: transform 0.2s;}
-#hero.jump, #enemy.jump { transform: translate(-50%,-55%); }
-.stats {margin-top:250px;}
-.buttons {position:absolute; bottom:20px; left:50%; transform:translateX(-50%); width:90%; max-width:320px;}
-.flash {position:absolute; width:50px; height:50px; border-radius:50%; background:yellow; opacity:0.7; pointer-events:none;}
+button {width:100%;padding:12px;margin:10px 0;font-size:18px;border-radius:12px;border:none;cursor:pointer;transition:0.2s;}
+button:hover{transform:scale(1.05);}
+.trainBtn{background:#2196f3;color:white;}
+.aiBtn{background:#ff9800;color:white;}
+.pvpBtn{background:#e91e63;color:white;}
+.settingsBtn{background:#4caf50;color:white;}
+.hidden{display:none;}
+.game img{width:120px;position:absolute;top:40%;transition:transform 0.2s;}
+.jump{transform:translate(-50%,-55%) scale(1.1);}
+.stats{margin-top:250px;}
+.buttons{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);width:90%;max-width:320px;}
+.flash{position:absolute;width:50px;height:50px;border-radius:50%;background:yellow;opacity:0.7;pointer-events:none;animation:flashAnim 0.3s;}
+@keyframes flashAnim{0%{opacity:0.7;}100%{opacity:0;}}
 </style>
 </head>
 <body>
 
 <div class="menu">
-<h1>💪 Я Качок</h1>
+<h1>💪 Я Качок ULTRA</h1>
 <button class="trainBtn" onclick="startTraining()">Тренировка</button>
 <button class="aiBtn" onclick="startPvP_AI()">PvP с ИИ</button>
 <button class="pvpBtn" onclick="startPvP_Player()">PvP онлайн / Топ</button>
+<button class="settingsBtn" onclick="openSettings()">Настройки героя</button>
 </div>
 
 <!-- Тренировка -->
 <div class="game hidden" id="trainingGame">
 <h2>🏋️‍♂️ Тренировка</h2>
-<img id="hero" src="hero.png" style="left:50%; transform:translate(-50%,-50%)">
+<img id="hero" src="hero.png" style="left:50%;transform:translate(-50%,-50%)">
 <div class="stats">
 🔥 Сила: <span id="power">1</span><br>
 🏆 Очки: <span id="points">0</span>
@@ -42,8 +46,8 @@ button {width:100%; padding:12px; margin:10px 0; font-size:18px; border-radius:1
 <!-- PvP с ИИ -->
 <div class="game hidden" id="pvpGame">
 <h2>⚔ PvP с ИИ</h2>
-<img id="heroPvP" src="hero.png" style="left:25%; transform:translate(-50%,-50%)">
-<img id="enemyPvP" src="enemy.png" style="left:75%; transform:translate(-50%,-50%)">
+<img id="heroPvP" src="hero.png" style="left:25%;transform:translate(-50%,-50%)">
+<img id="enemyPvP" src="enemy.png" style="left:75%;transform:translate(-50%,-50%)">
 <div class="stats">
 💪 Сила: <span id="playerStr">5</span><br>
 ❤️ HP: <span id="playerHP">20</span><br>
@@ -63,8 +67,8 @@ button {width:100%; padding:12px; margin:10px 0; font-size:18px; border-radius:1
 <!-- PvP онлайн -->
 <div class="game hidden" id="pvpPlayerGame">
 <h2>⚔ PvP онлайн</h2>
-<img id="heroP" src="hero.png" style="left:25%; transform:translate(-50%,-50%)">
-<img id="enemyP" src="enemy.png" style="left:75%; transform:translate(-50%,-50%)">
+<img id="heroP" src="hero.png" style="left:25%;transform:translate(-50%,-50%)">
+<img id="enemyP" src="enemy.png" style="left:75%;transform:translate(-50%,-50%)">
 <div class="stats">
 💪 Сила: <span id="playerPStr">5</span><br>
 ❤️ HP: <span id="playerPHP">20</span><br>
@@ -81,6 +85,13 @@ button {width:100%; padding:12px; margin:10px 0; font-size:18px; border-radius:1
 <ul id="topList"></ul>
 </div>
 
+<!-- Настройки героя -->
+<div class="game hidden" id="settingsGame">
+<h2>⚙ Настройки героя</h2>
+<p>Выбор скина и цвета героя</p>
+<button onclick="showMenu()">Назад</button>
+</div>
+
 <script>
 // Главное меню
 function showMenu(){
@@ -88,21 +99,20 @@ function showMenu(){
     document.getElementById('trainingGame').classList.add('hidden');
     document.getElementById('pvpGame').classList.add('hidden');
     document.getElementById('pvpPlayerGame').classList.add('hidden');
+    document.getElementById('settingsGame').classList.add('hidden');
 }
+function openSettings(){ document.querySelector('.menu').classList.add('hidden'); document.getElementById('settingsGame').classList.remove('hidden'); }
 
 // === Тренировка ===
 let power=1, points=0;
-function startTraining(){
-    document.querySelector('.menu').classList.add('hidden');
-    document.getElementById('trainingGame').classList.remove('hidden');
-}
+function startTraining(){ document.querySelector('.menu').classList.add('hidden'); document.getElementById('trainingGame').classList.remove('hidden'); }
 function train(){
     power++; points++;
     document.getElementById('power').textContent=power;
     document.getElementById('points').textContent=points;
     const hero=document.getElementById('hero');
-    hero.style.transform='translate(-50%,-55%)';
-    setTimeout(()=>hero.style.transform='translate(-50%,-50%)',200);
+    hero.classList.add('jump');
+    setTimeout(()=>hero.classList.remove('jump'),200);
 }
 
 // === PvP с ИИ ===
@@ -112,8 +122,8 @@ function startPvP_AI(){ document.querySelector('.menu').classList.add('hidden');
 function updateStatsPvP(){ document.getElementById('playerHP').textContent=player.hp; document.getElementById('playerStr').textContent=player.str; document.getElementById('playerAg').textContent=player.ag; document.getElementById('enemyHP').textContent=enemy.hp; document.getElementById('enemyStr').textContent=enemy.str; document.getElementById('enemyAg').textContent=enemy.ag; }
 function resetPvP(){ player={hp:20,str:5,ag:3}; enemy={hp:20,str:5,ag:3}; updateStatsPvP(); }
 function calculateDamage(attacker,defender){ let base=attacker.str*(0.8+Math.random()*0.4); if(Math.random()*10<defender.ag) base=0; return Math.floor(base); }
-function animateJump(id){ const el=document.getElementById(id); el.style.transform='translate(-50%,-55%)'; setTimeout(()=>el.style.transform='translate(-50%,-50%)',200); }
-function flashEffect(x,y){ const f=document.createElement("div"); f.style.position="absolute"; f.style.width="50px"; f.style.height="50px"; f.style.borderRadius="50%"; f.style.background="yellow"; f.style.opacity="0.7"; f.style.left=x-25+"px"; f.style.top=y-25+"px"; document.body.appendChild(f); setTimeout(()=>document.body.removeChild(f),200); }
+function animateJump(id){ const el=document.getElementById(id); el.classList.add('jump'); setTimeout(()=>el.classList.remove('jump'),200); }
+function flashEffect(x,y){ const f=document.createElement("div"); f.className="flash"; f.style.left=x-25+"px"; f.style.top=y-25+"px"; document.body.appendChild(f); setTimeout(()=>document.body.removeChild(f),300); }
 function playerMove(move){ 
     if(move==='attack'){ enemy.hp-=calculateDamage(player,enemy); animateJump('heroPvP'); flashEffect(document.getElementById('enemyPvP').getBoundingClientRect().left+60,document.getElementById('enemyPvP').getBoundingClientRect().top+60);}
     else if(move==='defend'){ player.str+=1; animateJump('heroPvP'); }
