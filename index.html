@@ -222,47 +222,53 @@
             <h2>Магазин бойцов</h2>
             <p>Выберите нового бойца:</p>
 
-            <!-- Персонаж 1 -->
-            <div class="shop-item">
-                <div class="hero">
-                    <img src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/pers.png" alt="Персонаж 1">
-                </div>
-                <div class="info">
-                    <h3>Броня</h3>
-                    <p>Сила: 5</p>
-                    <p>Цена: 20 силы</p>
-                </div>
-                <button onclick="buyHero(5, 100, 'https://raw.githubusercontent.com/rusay523-dotcom/game/main/pers.png')">Купить</button>
-            </div>
+            <!-- Магазин -->
+<div class="shop-menu" id="shop-menu">
+    <h2>Магазин бойцов</h2>
+    <p>Выберите нового бойца:</p>
 
-            <!-- Персонаж 2 -->
-            <div class="shop-item">
-                <div class="hero">
-                    <img src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_weak.png" alt="Персонаж 2">
-                </div>
-                <div class="info">
-                    <h3>Титан</h3>
-                    <p>Сила: 8</p>
-                    <p>Цена: 30 силы</p>
-                </div>
-                <button onclick="buyHero(8, 100, 'https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_weak.png')">Купить</button>
-            </div>
-
-            <!-- Персонаж 3 -->
-            <div class="shop-item">
-                <div class="hero">
-                    <img src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/pers2.png" alt="Персонаж 3">
-                </div>
-                <div class="info">
-                    <h3>Рок</h3>
-                    <p>Сила: 12</p>
-                    <p>Цена: 40 силы</p>
-                </div>
-                <button onclick="buyHero(12, 100, 'https://raw.githubusercontent.com/rusay523-dotcom/game/main/pers2.png')">Купить</button>
-            </div>
-
-            <button onclick="goBack()">Назад</button>
+    <!-- Персонаж 1 -->
+    <div class="shop-item">
+        <div class="hero">
+            <img src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/pers.png" alt="Броня">
         </div>
+        <div class="info">
+            <h3>Броня</h3>
+            <p>Сила: 5</p>
+            <p>Цена: 20 силы</p>
+        </div>
+        <button onclick="buyHero(5, 100, 'https://raw.githubusercontent.com/rusay523-dotcom/game/main/pers.png')">Купить</button>
+    </div>
+
+    <!-- Персонаж 2 -->
+    <div class="shop-item">
+        <div class="hero">
+            <img src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_weak.png" alt="Титан">
+        </div>
+        <div class="info">
+            <h3>Титан</h3>
+            <p>Сила: 8</p>
+            <p>Цена: 30 силы</p>
+        </div>
+        <button onclick="buyHero(8, 100, 'https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_weak.png')">Купить</button>
+    </div>
+
+    <!-- Персонаж 3 -->
+    <div class="shop-item">
+        <div class="hero">
+            <img src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/pers2.png" alt="Рок">
+        </div>
+        <div class="info">
+            <h3>Рок</h3>
+            <p>Сила: 12</p>
+            <p>Цена: 40 силы</p>
+        </div>
+        <button onclick="buyHero(12, 100, 'https://raw.githubusercontent.com/rusay523-dotcom/game/main/pers2.png')">Купить</button>
+    </div>
+
+    <button onclick="goBack()">Назад</button>
+</div>
+
 
         <!-- Статистика выбранного героя -->
         <div class="selected-hero-container" id="selected-hero">
@@ -292,7 +298,8 @@
             strength: 5,
             health: 100,
             image: "https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_normal.png",
-            lastTrainTime: 0
+            lastTrainTime: 0,
+            trainCount: 0 // Счётчик количества прокачек
         };
 
         // Обновление статистики
@@ -310,8 +317,8 @@
             const timeDifference = (currentTime - hero.lastTrainTime) / 1000; // Время в секундах
 
             // Проверка, прошло ли 30 минут с последней прокачки
-            if (timeDifference < 1800) {
-                alert("Прокачка доступна только через 30 минут.");
+            if (timeDifference < 1800 && hero.trainCount >= 10) {
+                alert("Вы достигли лимита прокачек за 30 минут.");
                 return;
             }
 
@@ -319,6 +326,7 @@
             if (hero.strength < 50) {
                 hero.strength += 2;
                 hero.health += 5;
+                hero.trainCount += 1; // Увеличиваем счётчик прокачек
                 hero.lastTrainTime = currentTime; // Сохраняем время последней прокачки
                 localStorage.setItem('hero', JSON.stringify(hero)); // Сохраняем данные в localStorage
                 updateStats(); // Обновляем статистику
