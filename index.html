@@ -276,15 +276,17 @@
     </div>
 
     <script>
+        // Загрузка данных персонажа из localStorage
         let hero = JSON.parse(localStorage.getItem('hero')) || {
             name: "Качок",
             strength: 5,
-            health: 100,  // Здоровье остается фиксированным
+            health: 100,
             image: "https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_normal.png",
             lastTrainTime: 0,
             trainCount: 0
         };
 
+        // Функция обновления статистики
         function updateStats() {
             document.getElementById("strength").textContent = hero.strength;
             document.getElementById("health").textContent = hero.health;  // Здоровье не изменяется при прокачке
@@ -293,27 +295,32 @@
             document.getElementById("hero-img").src = hero.image;
         }
 
+        // Показываем экран выбора персонажа
         function showCharacterSelection() {
             hideAllScreens();
             document.getElementById("selected-hero").style.display = "block";
         }
 
+        // Открываем PvP
         function openPvP() {
             hideAllScreens();
             document.querySelector(".pvp-battle").style.display = "block";
         }
 
+        // Открываем магазин
         function openShop() {
             hideAllScreens();
             document.querySelector(".shop-menu").style.display = "block";
         }
 
+        // Возвращаемся на главный экран
         function goBack() {
             hideAllScreens();
             document.getElementById("start-screen").style.display = "block";
             updateStats();
         }
 
+        // Скрыть все экраны
         function hideAllScreens() {
             document.getElementById("start-screen").style.display = "none";
             document.getElementById("selected-hero").style.display = "none";
@@ -321,18 +328,20 @@
             document.querySelector(".pvp-battle").style.display = "none";
         }
 
+        // Функция покупки персонажа
         function buyHero(strength, health, image) {
             if (hero.strength >= strength) {
                 hero.strength -= strength;
-                hero.image = image;
-                localStorage.setItem('hero', JSON.stringify(hero));
-                updateStats();
+                hero.image = image;  // Обновляем изображение при покупке нового персонажа
+                localStorage.setItem('hero', JSON.stringify(hero)); // Сохраняем персонажа в localStorage
+                updateStats(); // Обновляем статистику на экране
                 alert("Персонаж куплен!");
             } else {
                 alert("У вас недостаточно силы для покупки!");
             }
         }
 
+        // Функция прокачки
         function trainHero() {
             const currentTime = new Date().getTime();
             const timeDifference = (currentTime - hero.lastTrainTime) / 1000;
@@ -346,26 +355,28 @@
                 hero.strength += 2;
                 hero.trainCount += 1;
                 hero.lastTrainTime = currentTime;
-                localStorage.setItem('hero', JSON.stringify(hero));
+                localStorage.setItem('hero', JSON.stringify(hero)); // Сохраняем персонажа
                 updateStats();
             } else {
                 alert("Сила уже максимальна!");
             }
         }
 
+        // Функция PvP
         function pvpBattle() {
             let opponentStrength = Math.floor(Math.random() * 10) + 5;
             let battleResult = hero.strength >= opponentStrength ? "Вы победили!" : "Вы проиграли!";
 
             if (battleResult === "Вы проиграли!") {
                 hero.health -= 10;  // Здоровье уменьшается при поражении в PvP
-                localStorage.setItem('hero', JSON.stringify(hero));
+                localStorage.setItem('hero', JSON.stringify(hero)); // Сохраняем обновленное здоровье
                 updateStats();
             }
 
             alert(battleResult);
         }
 
+        // Инициализация
         updateStats();
     </script>
 </body>
