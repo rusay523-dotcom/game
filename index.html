@@ -246,29 +246,34 @@
 
         // Показываем магазин
         function openShop() {
-            document.getElementById("start-screen").style.display = "none";
-            document.getElementById("selected-hero").style.display = "none";
-            document.querySelector(".shop-menu").style.display = "block";
+            hideAllScreens();  // Скрыть все экраны
+            document.querySelector(".shop-menu").style.display = "block";  // Показать магазин
         }
 
         // Показываем "Мой персонаж"
         function showCharacterSelection() {
-            document.getElementById("start-screen").style.display = "none";
-            document.getElementById("selected-hero").style.display = "block";
-            document.querySelector(".shop-menu").style.display = "none";  // Скрыть магазин
-            document.querySelector(".pvp-battle").style.display = "none"; // Скрыть PvP
+            hideAllScreens();  // Скрыть все экраны
+            document.getElementById("selected-hero").style.display = "block";  // Показать экран "Мой персонаж"
+        }
+
+        // Показываем PvP
+        function openPvP() {
+            hideAllScreens();  // Скрыть все экраны
+            document.querySelector(".pvp-battle").style.display = "block";  // Показать PvP
         }
 
         // Вернуться назад
         function goBack() {
-            // Показываем главное меню
-            document.getElementById("start-screen").style.display = "block";
-            
-            // Скрываем другие экраны
+            hideAllScreens();  // Скрыть все экраны
+            document.getElementById("start-screen").style.display = "block";  // Показать главное меню
+        }
+
+        // Скрыть все экраны
+        function hideAllScreens() {
+            document.getElementById("start-screen").style.display = "none";
             document.getElementById("selected-hero").style.display = "none";
-            document.getElementById("character-selection").style.display = "none";
-            document.querySelector(".shop-menu").style.display = "none";  // Скрываем магазин
-            document.querySelector(".pvp-battle").style.display = "none"; // Скрываем PvP
+            document.querySelector(".shop-menu").style.display = "none";
+            document.querySelector(".pvp-battle").style.display = "none";
         }
 
         // Функция покупки персонажа
