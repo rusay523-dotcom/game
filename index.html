@@ -91,6 +91,12 @@
         #selected-hero {
             margin-top: 20px;
         }
+
+        .pvp-battle {
+            display: none;
+            margin-top: 20px;
+            font-size: 20px;
+        }
     </style>
 </head>
 <body>
@@ -139,37 +145,20 @@
             <button onclick="train()">Прокачать</button>
             <button onclick="startPvP()">Начать бой</button>
         </div>
+
+        <!-- PvP битва -->
+        <div class="pvp-battle" id="pvp-battle">
+            <h2>Сражение PvP</h2>
+            <p id="battle-result"></p>
+            <button onclick="resetBattle()">Начать новый бой</button>
+        </div>
     </div>
 
     <script>
         const heroes = [
-            {
-                id: "hero1",
-                name: "Качок 1",
-                img: "hero_weak.png",
-                strength: 5,
-                health: 20,
-                level: 1,
-                price: 100,
-            },
-            {
-                id: "hero2",
-                name: "Качок 2",
-                img: "hero_normal.png",
-                strength: 10,
-                health: 30,
-                level: 1,
-                price: 200,
-            },
-            {
-                id: "hero3",
-                name: "Качок 3",
-                img: "hero_strong.png",
-                strength: 15,
-                health: 40,
-                level: 1,
-                price: 300,
-            }
+            { id: "hero1", name: "Качок 1", img: "hero_weak.png", strength: 5, health: 20, level: 1, price: 100 },
+            { id: "hero2", name: "Качок 2", img: "hero_normal.png", strength: 10, health: 30, level: 1, price: 200 },
+            { id: "hero3", name: "Качок 3", img: "hero_strong.png", strength: 15, health: 40, level: 1, price: 300 }
         ];
 
         let userCurrency = 500;  // Начальная валюта
@@ -192,4 +181,65 @@
             document.getElementById("hero-img").src = hero.img;
             document.getElementById("hero-name").innerText = `Имя: ${hero.name}`;
             document.getElementById("hero-strength").innerText = `Сила: ${hero.strength}`;
-            document.getElementById("hero-health").innerText = `З
+            document.getElementById("hero-health").innerText = `Здоровье: ${hero.health}`;
+            document.getElementById("hero-level").innerText = `Уровень: ${hero.level}`;
+            selectedHero = hero;
+        }
+
+        function train() {
+            if (!selectedHero) {
+                alert("Выберите героя для прокачки!");
+                return;
+            }
+
+            // Прокачиваем героя
+            selectedHero.strength += 2;
+            selectedHero.health += 5;
+            selectedHero.level += 1;
+
+            document.getElementById("hero-strength").innerText = `Сила: ${selectedHero.strength}`;
+            document.getElementById("hero-health").innerText = `Здоровье: ${selectedHero.health}`;
+            document.getElementById("hero-level").innerText = `Уровень: ${selectedHero.level}`;
+            alert(`Вы прокачали ${selectedHero.name}!`);
+        }
+
+        function startPvP() {
+            if (!selectedHero) {
+                alert("Выберите героя для PvP!");
+                return;
+            }
+
+            // Логика для начала PvP
+            const enemy = getRandomEnemy();
+            const result = battle(selectedHero, enemy);
+            document.getElementById("battle-result").innerText = result;
+            document.getElementById("pvp-battle").style.display = "block";
+        }
+
+        function getRandomEnemy() {
+            // Случайно выбираем врага из списка
+            const enemyIndex = Math.floor(Math.random() * heroes.length);
+            return heroes[enemyIndex];
+        }
+
+        function battle(hero, enemy) {
+            // Битва между героями
+            let heroDamage = hero.strength * Math.random();
+            let enemyDamage = enemy.strength * Math.random();
+
+            if (Math.random() < 0.1) heroDamage *= 2;  // Критический удар
+
+            if (heroDamage > enemyDamage) {
+                return `Победа! Ваш качок победил ${enemy.name}.`;
+            } else {
+                return `Поражение. Ваш качок проиграл ${enemy.name}.`;
+            }
+        }
+
+        function resetBattle() {
+            document.getElementById("pvp-battle").style.display = "none";
+        }
+    </script>
+
+</body>
+</html>
