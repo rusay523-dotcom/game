@@ -99,6 +99,7 @@
             width: 250px;
             height: auto;
             z-index: 1; /* Герой на заднем плане */
+            display: none; /* Скрываем по умолчанию */
         }
     </style>
 </head>
@@ -158,7 +159,7 @@
     </div>
 
     <!-- Герой на заднем плане -->
-    <img class="background-hero" src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_normal.png" alt="Герой" />
+    <img class="background-hero" id="background-hero" src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_normal.png" alt="Герой" />
 
     <script>
         let hero = {
@@ -205,6 +206,9 @@
             document.getElementById("character-selection").style.display = "none";
             document.querySelector(".shop-menu").style.display = "none";
             document.querySelector(".pvp-battle").style.display = "none";
+
+            // Скрываем героя на заднем плане
+            document.getElementById("background-hero").style.display = "none";
         }
 
         // Открыть PvP экран
@@ -213,6 +217,9 @@
             document.getElementById("selected-hero").style.display = "none";
             document.querySelector(".pvp-battle").style.display = "block";
             document.getElementById("opponent-strength").textContent = Math.floor(Math.random() * 10) + 5;
+
+            // Показываем героя на заднем плане
+            document.getElementById("background-hero").style.display = "block";
         }
 
         // Открыть магазин
@@ -220,6 +227,9 @@
             document.getElementById("start-screen").style.display = "none";
             document.getElementById("selected-hero").style.display = "none";
             document.querySelector(".shop-menu").style.display = "block";
+
+            // Скрываем героя на заднем плане
+            document.getElementById("background-hero").style.display = "none";
         }
     </script>
 </body>
