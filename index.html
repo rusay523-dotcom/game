@@ -336,7 +336,7 @@
         // Функция покупки персонажа
         function buyHero(strength, health, image) {
             if (hero.strength >= strength) {
-                hero.strength -= strength;
+                hero.strength -= strength; // Снижаем силу героя при покупке
                 hero.image = image;
                 updateStats();
                 document.getElementById("hero-img").src = hero.image;
