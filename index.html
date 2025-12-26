@@ -155,7 +155,7 @@
                 <img src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_weak.png" alt="Качок 2" onclick="selectCharacter(8, 30, 'https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_weak.png')">
             </div>
             <div class="hero">
-                <img src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/vrot.png" alt="Качок 3" onclick="selectCharacter(12, 40, 'https://raw.githubusercontent.com/rusay523-dotcom/game/main/vrot.png')">
+                <img src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_strong.png" alt="Качок 3" onclick="selectCharacter(12, 40, 'https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_strong.png')">
             </div>
         </div>
 
@@ -257,6 +257,20 @@
             document.getElementById("start-screen").style.display = "none";
             document.getElementById("selected-hero").style.display = "none";
             document.querySelector(".shop-menu").style.display = "block";
+        }
+
+        // Функция PvP
+        function pvpBattle() {
+            let opponentStrength = Math.floor(Math.random() * 10) + 5;
+            let battleResult = hero.strength >= opponentStrength ? "Вы победили!" : "Вы проиграли!";
+            
+            // Выигрыш в PvP
+            if (battleResult === "Вы победили!") {
+                hero.strength += 5; // Добавляем +5 силы за победу
+                updateStats();
+            }
+
+            alert(battleResult);  // Показываем результат
         }
     </script>
 </body>
