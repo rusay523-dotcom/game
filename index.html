@@ -289,10 +289,10 @@
         // Функция обновления статистики
         function updateStats() {
             document.getElementById("strength").textContent = hero.strength;
-            document.getElementById("health").textContent = hero.health;  // Здоровье не изменяется при прокачке
+            document.getElementById("health").textContent = hero.health;
             document.getElementById("selected-strength").textContent = hero.strength;
             document.getElementById("hero-strength").textContent = hero.strength;
-            document.getElementById("hero-img").src = hero.image;
+            document.getElementById("hero-img").src = hero.image; // Обновляем фото
         }
 
         // Показываем экран выбора персонажа
@@ -317,7 +317,7 @@
         function goBack() {
             hideAllScreens();
             document.getElementById("start-screen").style.display = "block";
-            updateStats();
+            updateStats(); // Обновляем данные на главном экране
         }
 
         // Скрыть все экраны
