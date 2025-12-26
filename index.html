@@ -142,4 +142,104 @@
         <!-- Статистика выбранного героя -->
         <div id="selected-hero">
             <h2>Ваш выбранный боец:</h2>
-            <img s
+            <img src="hero_weak.png" alt="Качок" id="selected-hero-img" class="hero">
+            <p id="hero-stats">Сила: 5, Здоровье: 20</p>
+            <button onclick="train()">Прокачать</button>
+        </div>
+
+        <!-- Магазин -->
+        <div class="shop-menu" style="display: none;">
+            <h2>Магазин бойцов</h2>
+            <div class="heroes">
+                <div class="hero-card">
+                    <img src="hero_weak.png" alt="Слабый Качок">
+                    <h3>Слабый Качок</h3>
+                    <p>Сила: 5, Здоровье: 20</p>
+                    <button onclick="buyHero('Слабый Качок', 5, 20, 'hero_weak.png')">Купить за 100 монет</button>
+                </div>
+                <div class="hero-card">
+                    <img src="hero_medium.png" alt="Средний Качок">
+                    <h3>Средний Качок</h3>
+                    <p>Сила: 8, Здоровье: 30</p>
+                    <button onclick="buyHero('Средний Качок', 8, 30, 'hero_medium.png')">Купить за 200 монет</button>
+                </div>
+                <div class="hero-card">
+                    <img src="hero_strong.png" alt="Сильный Качок">
+                    <h3>Сильный Качок</h3>
+                    <p>Сила: 12, Здоровье: 40</p>
+                    <button onclick="buyHero('Сильный Качок', 12, 40, 'hero_strong.png')">Купить за 500 монет</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ПвП -->
+        <div class="pvp-battle" style="display: none;">
+            <h2>PvP Бой!</h2>
+            <p>Сила вашего героя: <span id="hero-strength">5</span></p>
+            <button onclick="pvpBattle()">Начать бой</button>
+        </div>
+    </div>
+
+    <script>
+        // Переменные для героя
+        let hero = {
+            name: "Качок",
+            strength: 5,
+            health: 20,
+            image: "hero_weak.png",
+        };
+
+        // Функция прокачки
+        function train() {
+            hero.strength += 2;
+            hero.health += 5;
+            document.getElementById("initial-hero").src = "hero_stronger.png";  // Изменение изображения после прокачки
+            updateStats();
+        }
+
+        // Функция для обновления статистики
+        function updateStats() {
+            document.querySelector("#hero-stats").textContent = `Сила: ${hero.strength}, Здоровье: ${hero.health}`;
+        }
+
+        // Функция для открытия магазина
+        function openShop() {
+            document.getElementById("start-screen").style.display = "none";
+            document.getElementById("selected-hero").style.display = "none";
+            document.querySelector(".shop-menu").style.display = "block";
+        }
+
+        // Функция для открытия PvP
+        function openPvP() {
+            document.getElementById("start-screen").style.display = "none";
+            document.getElementById("selected-hero").style.display = "none";
+            document.querySelector(".pvp-battle").style.display = "block";
+        }
+
+        // Функция для покупки нового героя из магазина
+        function buyHero(name, strength, health, image) {
+            hero.name = name;
+            hero.strength = strength;
+            hero.health = health;
+            hero.image = image;
+
+            document.getElementById("selected-hero").style.display = "block";
+            document.querySelector(".shop-menu").style.display = "none";
+            document.getElementById("selected-hero-img").src = image;
+            updateStats();
+        }
+
+        // Функция для победы в PvP
+        function pvpBattle() {
+            let opponentStrength = Math.floor(Math.random() * 10) + 5;  // Сила противника
+            if (hero.strength > opponentStrength) {
+                alert("Вы победили!");
+            } else {
+                alert("Вы проиграли, попробуйте снова!");
+            }
+            document.querySelector(".pvp-battle").style.display = "none";
+            document.getElementById("start-screen").style.display = "block";
+        }
+    </script>
+</body>
+</html>
