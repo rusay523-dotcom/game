@@ -244,28 +244,34 @@
             image: "https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_normal.png"
         };
 
+        // Показываем магазин
         function openShop() {
             document.getElementById("start-screen").style.display = "none";
             document.getElementById("selected-hero").style.display = "none";
             document.querySelector(".shop-menu").style.display = "block";
         }
 
+        // Показываем "Мой персонаж"
         function showCharacterSelection() {
             document.getElementById("start-screen").style.display = "none";
-            document.getElementById("character-selection").style.display = "block";
-            document.getElementById("shop-menu").style.display = "none";  // Скрыть магазин
-            document.getElementById("pvp-battle").style.display = "none"; // Скрыть PvP
+            document.getElementById("selected-hero").style.display = "block";
+            document.querySelector(".shop-menu").style.display = "none";  // Скрыть магазин
+            document.querySelector(".pvp-battle").style.display = "none"; // Скрыть PvP
         }
 
         // Вернуться назад
         function goBack() {
+            // Показываем главное меню
             document.getElementById("start-screen").style.display = "block";
+            
+            // Скрываем другие экраны
             document.getElementById("selected-hero").style.display = "none";
             document.getElementById("character-selection").style.display = "none";
             document.querySelector(".shop-menu").style.display = "none";  // Скрываем магазин
             document.querySelector(".pvp-battle").style.display = "none"; // Скрываем PvP
         }
 
+        // Функция покупки персонажа
         function buyHero(strength, health, image) {
             if (hero.strength >= strength) {
                 hero.strength -= strength;
@@ -278,12 +284,14 @@
             }
         }
 
+        // Обновление статистики на экране
         function updateStats() {
             document.getElementById("strength").textContent = hero.strength;
             document.getElementById("selected-strength").textContent = hero.strength;
             document.getElementById("hero-strength").textContent = hero.strength;
         }
 
+        // Функция PvP
         function pvpBattle() {
             let opponentStrength = Math.floor(Math.random() * 10) + 5;
             let battleResult = hero.strength >= opponentStrength ? "Вы победили!" : "Вы проиграли!";
