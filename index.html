@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Я Качок: Прокачка и PvP</title>
+    <title>Бойцы - Прокачка и PvP</title>
     <style>
         body {
             margin: 0;
@@ -69,6 +69,11 @@
             background-color: #0b7dda;
         }
 
+        /* Магазин */
+        .shop-menu {
+            text-align: center;
+        }
+
         .hero-card {
             display: inline-block;
             margin: 20px;
@@ -106,7 +111,7 @@
 
         <!-- Меню магазина -->
         <div class="shop-menu">
-            <h2>Выберите вашего качка для PvP</h2>
+            <h2>Выберите вашего бойца</h2>
             <div class="heroes">
                 <!-- Качок 1 -->
                 <div class="hero-card">
@@ -136,8 +141,8 @@
 
         <!-- Статистика выбранного героя -->
         <div id="selected-hero">
-            <h2>Ваш выбранный качок:</h2>
-            <img src="" id="hero-img" alt="Ваш качок">
+            <h2>Ваш выбранный боец:</h2>
+            <img src="" id="hero-img" alt="Ваш боец">
             <p id="hero-name"></p>
             <p id="hero-strength"></p>
             <p id="hero-health"></p>
@@ -230,9 +235,9 @@
             if (Math.random() < 0.1) heroDamage *= 2;  // Критический удар
 
             if (heroDamage > enemyDamage) {
-                return `Победа! Ваш качок победил ${enemy.name}.`;
+                return `Победа! Ваш боец победил ${enemy.name}.`;
             } else {
-                return `Поражение. Ваш качок проиграл ${enemy.name}.`;
+                return `Поражение. Ваш боец проиграл ${enemy.name}.`;
             }
         }
 
