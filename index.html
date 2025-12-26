@@ -8,7 +8,7 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background-image: url('https://raw.githubusercontent.com/rusay523-dotcom/game/main/gym_bg.png'); /* Ссылка на фон */
+            background-image: url('https://raw.githubusercontent.com/rusay523-dotcom/game/main/gym_bg.png'); /* Новый правильный URL */
             background-size: cover;
             background-position: center;
             height: 100vh;
@@ -96,4 +96,107 @@
     <div class="container">
         <h1>💪 Прокачка и PvP</h1>
 
-        <!-- Главное мен
+        <!-- Главное меню -->
+        <div class="menu-container" id="start-screen">
+            <div id="hero" class="hero">
+                <img src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_normal.png" alt="Качок" />
+            </div>
+            <p class="stats">Сила: <span id="strength">5</span>, Здоровье: 20</p>
+            <div class="buttons">
+                <button id="train-btn">Прокачать</button>
+                <button id="pvp-btn">PvP</button>
+                <button id="shop-btn">Магазин</button>
+            </div>
+        </div>
+
+        <!-- Статистика выбранного героя -->
+        <div class="selected-hero-container" id="selected-hero">
+            <h2>Ваш выбранный боец:</h2>
+            <div id="selected-hero-img" class="hero"></div>
+            <p class="stats">Сила: <span id="selected-strength">5</span>, Здоровье: 20</p>
+            <button id="train-selected-btn">Прокачать</button>
+            <button onclick="goBack()">Назад</button>
+        </div>
+
+        <!-- Магазин -->
+        <div class="shop-menu" id="shop-menu">
+            <h2>Магазин бойцов</h2>
+            <p>Выберите нового бойца:</p>
+            <button onclick="buyHero(5, 20, 'hero1')">Слабый Качок (5 Сила, 20 Здоровье)</button>
+            <button onclick="buyHero(8, 30, 'hero2')">Средний Качок (8 Сила, 30 Здоровье)</button>
+            <button onclick="buyHero(12, 40, 'hero3')">Сильный Качок (12 Сила, 40 Здоровье)</button>
+            <button onclick="goBack()">Назад</button>
+        </div>
+
+        <!-- PvP -->
+        <div class="pvp-battle">
+            <h2>PvP Бой!</h2>
+            <p>Сила вашего героя: <span id="hero-strength">5</span></p>
+            <p>Сила противника: <span id="opponent-strength">---</span></p>
+            <button onclick="pvpBattle()">Начать бой</button>
+            <button onclick="goBack()">Назад</button>
+        </div>
+    </div>
+
+    <script>
+        let hero = {
+            name: "Качок",
+            strength: 5,
+            health: 20,
+            image: "https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_normal.png" // Указываем ссылку на изображение героя
+        };
+
+        // Функция прокачки
+        function train() {
+            hero.strength += 2;
+            hero.health += 5;
+            document.getElementById("hero").classList.add("working-out"); // Запускаем анимацию качания
+            setTimeout(() => {
+                document.getElementById("hero").classList.remove("working-out"); // Останавливаем анимацию через 1 секунду
+            }, 1000);
+            updateStats();
+        }
+
+        // Обновление статистики на экране
+        function updateStats() {
+            document.getElementById("strength").textContent = hero.strength;
+            document.getElementById("selected-strength").textContent = hero.strength;
+        }
+
+        // Открыть PvP экран
+        function openPvP() {
+            document.getElementById("start-screen").style.display = "none";
+            document.getElementById("selected-hero").style.display = "none";
+            document.querySelector(".pvp-battle").style.display = "block";
+            document.getElementById("opponent-strength").textContent = Math.floor(Math.random() * 10) + 5;
+        }
+
+        // Открыть магазин
+        function openShop() {
+            document.getElementById("start-screen").style.display = "none";
+            document.getElementById("selected-hero").style.display = "none";
+            document.querySelector(".shop-menu").style.display = "block";
+        }
+
+        // Покупка нового героя
+        function buyHero(strength, health, image) {
+            hero.strength = strength;
+            hero.health = health;
+            hero.image = image;
+
+            // Обновляем экран выбранного персонажа
+            document.getElementById("selected-hero").style.display = "block"; 
+            document.querySelector(".shop-menu").style.display = "none"; 
+            updateStats();
+        }
+
+        // Вернуться назад
+        function goBack() {
+            document.getElementById("start-screen").style.display = "block";
+            document.getElementById("selected-hero").style.display = "none";
+            document.querySelector(".shop-menu").style.display = "none";
+            document.querySelector(".pvp-battle").style.display = "none";
+        }
+    </script>
+</body>
+</html>
