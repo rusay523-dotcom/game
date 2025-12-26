@@ -78,18 +78,18 @@
             <div id="hero" class="hero"></div>
             <p class="stats">Сила: <span id="strength">5</span>, Здоровье: 20</p>
             <div class="buttons">
-                <button onclick="train()">Прокачать</button>
-                <button onclick="openPvP()">PvP</button>
-                <button onclick="openShop()">Магазин</button>
+                <button id="train-btn">Прокачать</button>
+                <button id="pvp-btn">PvP</button>
+                <button id="shop-btn">Магазин</button>
             </div>
         </div>
 
         <!-- Статистика выбранного героя -->
-        <div id="selected-hero">
+        <div id="selected-hero" style="display: none;">
             <h2>Ваш выбранный боец:</h2>
             <div id="selected-hero-img" class="hero"></div>
             <p class="stats">Сила: <span id="selected-strength">5</span>, Здоровье: 20</p>
-            <button onclick="train()">Прокачать</button>
+            <button id="train-selected-btn">Прокачать</button>
         </div>
 
         <!-- Магазин -->
@@ -97,4 +97,88 @@
             <h2>Магазин бойцов</h2>
             <p>Выберите нового бойца:</p>
             <button onclick="buyHero(5, 20, 'hero')">Слабый Качок (5 Сила, 20 Здоровье)</button>
-            <button onclick="buyHero(8, 30, 'hero2')">Средний Качок (8
+            <button onclick="buyHero(8, 30, 'hero2')">Средний Качок (8 Сила, 30 Здоровье)</button>
+            <button onclick="buyHero(12, 40, 'hero3')">Сильный Качок (12 Сила, 40 Здоровье)</button>
+        </div>
+
+        <!-- PvP -->
+        <div class="pvp-battle">
+            <h2>PvP Бой!</h2>
+            <p>Сила вашего героя: <span id="hero-strength">5</span></p>
+            <p>Сила противника: <span id="opponent-strength">---</span></p>
+            <button onclick="pvpBattle()">Начать бой</button>
+        </div>
+    </div>
+
+    <script>
+        // Переменная для героя
+        let hero = {
+            name: "Качок",
+            strength: 5,
+            health: 20,
+            image: "hero"
+        };
+
+        // Функция прокачки
+        function train() {
+            hero.strength += 2;
+            hero.health += 5;
+            document.getElementById("hero").style.transform = "scale(1.2)"; // Анимация при прокачке
+            setTimeout(() => {
+                document.getElementById("hero").style.transform = "scale(1)";
+            }, 500);
+            updateStats();
+        }
+
+        // Обновление статистики на экране
+        function updateStats() {
+            document.getElementById("strength").textContent = hero.strength;
+            document.getElementById("selected-strength").textContent = hero.strength;
+        }
+
+        // Открыть PvP экран
+        function openPvP() {
+            document.getElementById("start-screen").style.display = "none";
+            document.getElementById("selected-hero").style.display = "none";
+            document.querySelector(".pvp-battle").style.display = "block";
+            document.getElementById("opponent-strength").textContent = Math.floor(Math.random() * 10) + 5;
+        }
+
+        // Открыть магазин
+        function openShop() {
+            document.getElementById("start-screen").style.display = "none";
+            document.getElementById("selected-hero").style.display = "none";
+            document.querySelector(".shop-menu").style.display = "block";
+        }
+
+        // Покупка нового героя
+        function buyHero(strength, health, image) {
+            hero.strength = strength;
+            hero.health = health;
+            hero.image = image;
+            document.getElementById("selected-hero").style.display = "block";
+            document.querySelector(".shop-menu").style.display = "none";
+            document.getElementById("selected-hero-img").className = image;
+            updateStats();
+        }
+
+        // PvP битва
+        function pvpBattle() {
+            let opponentStrength = parseInt(document.getElementById("opponent-strength").textContent);
+            if (hero.strength > opponentStrength) {
+                alert("Вы победили!");
+            } else {
+                alert("Вы проиграли, попробуйте снова!");
+            }
+            document.querySelector(".pvp-battle").style.display = "none";
+            document.getElementById("start-screen").style.display = "block";
+        }
+
+        // Обработчики событий для кнопок
+        document.getElementById("train-btn").addEventListener("click", train);
+        document.getElementById("pvp-btn").addEventListener("click", openPvP);
+        document.getElementById("shop-btn").addEventListener("click", openShop);
+        document.getElementById("train-selected-btn").addEventListener("click", train);
+    </script>
+</body>
+</html>
