@@ -202,6 +202,8 @@
         function showCharacterSelection() {
             document.getElementById("start-screen").style.display = "none";
             document.getElementById("character-selection").style.display = "block";
+            document.getElementById("shop-menu").style.display = "none";  // Скрыть магазин
+            document.getElementById("pvp-battle").style.display = "none"; // Скрыть PvP
         }
 
         // Выбор персонажа
@@ -236,6 +238,8 @@
             document.getElementById("start-screen").style.display = "block";
             document.getElementById("selected-hero").style.display = "none";
             document.getElementById("character-selection").style.display = "none";
+            document.querySelector(".shop-menu").style.display = "none";
+            document.querySelector(".pvp-battle").style.display = "none";
         }
 
         // Открыть PvP экран
