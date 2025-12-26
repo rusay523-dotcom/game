@@ -200,8 +200,14 @@
 
         // Показать выбор персонажа
         function showCharacterSelection() {
-            document.getElementById("start-screen").style.display = "none";
-            document.getElementById("character-selection").style.display = "block";
+            if (hero.image) {
+                document.getElementById("start-screen").style.display = "none";
+                document.getElementById("selected-hero").style.display = "block"; // Показываем текущего героя
+                document.getElementById("character-selection").style.display = "none"; // Скрываем выбор персонажа
+            } else {
+                document.getElementById("start-screen").style.display = "none";
+                document.getElementById("character-selection").style.display = "block"; // Показываем экран выбора персонажа
+            }
             document.getElementById("shop-menu").style.display = "none";  // Скрыть магазин
             document.getElementById("pvp-battle").style.display = "none"; // Скрыть PvP
         }
