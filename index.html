@@ -23,45 +23,47 @@
         .container {
             position: relative;
             width: 100%;
-            max-width: 400px;
+            max-width: 400px; /* Уменьшено максимальное значение */
             padding: 15px;
             box-sizing: border-box;
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.6); /* Добавим полупрозрачный фон */
             border-radius: 25px;
             z-index: 2;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.7);
         }
 
         h1 {
-            font-size: 30px;
+            font-size: 30px; /* Уменьшено для мобильных устройств */
             font-weight: bold;
             margin-bottom: 20px;
-            color: #ffbb33;
+            color: #ffbb33; /* Яркий оранжевый для заголовка */
         }
 
+        /* Жёлтый кружок */
         .hero {
-            width: 110px;
+            width: 110px; /* Уменьшен размер */
             height: 110px;
-            background-color: #ffbb33;
+            background-color: #ffbb33; /* Жёлтый фон для круга */
             border-radius: 50%;
-            margin: 15px auto;
+            margin: 15px auto; /* Уменьшен отступ */
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.6); /* Добавим лёгкую тень */
         }
 
+        /* Персонаж внутри жёлтого круга */
         .hero img {
-            width: 90px;
+            width: 90px; /* Уменьшен размер изображения */
             height: 90px;
-            object-fit: cover;
+            object-fit: cover; /* Персонаж будет хорошо вписан в круг */
         }
 
         .buttons button {
             background-color: #2196f3;
             padding: 10px;
-            font-size: 16px;
+            font-size: 16px; /* Уменьшено для мобильных устройств */
             border-radius: 20px;
             border: none;
             cursor: pointer;
@@ -77,7 +79,7 @@
         }
 
         .stats {
-            font-size: 18px;
+            font-size: 18px; /* Уменьшено для мобильных устройств */
             margin: 15px 0;
             text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
         }
@@ -102,14 +104,14 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 10px; /* Уменьшен отступ */
             padding: 8px;
             background-color: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
         }
 
         .shop-item .hero {
-            width: 80px;
+            width: 80px; /* Уменьшен размер */
             height: 80px;
         }
 
@@ -126,18 +128,18 @@
 
         .shop-item .info h3 {
             margin: 0;
-            font-size: 16px;
+            font-size: 16px; /* Уменьшено для мобильных устройств */
         }
 
         .shop-item .info p {
             margin: 3px 0;
-            font-size: 14px;
+            font-size: 14px; /* Уменьшено для мобильных устройств */
         }
 
         .shop-item button {
             background-color: #2196f3;
             color: white;
-            padding: 8px 15px;
+            padding: 8px 15px; /* Уменьшен размер кнопки */
             border: none;
             border-radius: 20px;
             cursor: pointer;
