@@ -155,7 +155,7 @@
                 <img src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_weak.png" alt="Качок 2" onclick="selectCharacter(8, 30, 'https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_weak.png')">
             </div>
             <div class="hero">
-                <img src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_strong.png" alt="Качок 3" onclick="selectCharacter(12, 40, 'https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_strong.png')">
+                <img src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/vrot.png" alt="Качок 3" onclick="selectCharacter(12, 40, 'https://raw.githubusercontent.com/rusay523-dotcom/game/main/vrot.png')">
             </div>
         </div>
 
@@ -183,7 +183,7 @@
         <!-- PvP -->
         <div class="pvp-battle">
             <h2>PvP Бой!</h2>
-            <p>Сила вашего героя: <span id="hero-strength">5</span></p>
+            <p>Сила вашего героя: <span id="hero-strength"></span></p>
             <p>Сила противника: <span id="opponent-strength">---</span></p>
             <button onclick="pvpBattle()">Начать бой</button>
             <button onclick="goBack()">Назад</button>
@@ -231,6 +231,7 @@
         function updateStats() {
             document.getElementById("strength").textContent = hero.strength;
             document.getElementById("selected-strength").textContent = hero.strength;
+            document.getElementById("hero-strength").textContent = hero.strength;  // Обновляем силу в PvP
         }
 
         // Вернуться назад
@@ -248,6 +249,7 @@
             document.getElementById("selected-hero").style.display = "none";
             document.querySelector(".pvp-battle").style.display = "block";
             document.getElementById("opponent-strength").textContent = Math.floor(Math.random() * 10) + 5;
+            document.getElementById("hero-strength").textContent = hero.strength;  // Отображаем силу героя на PvP экране
         }
 
         // Открыть магазин
