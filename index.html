@@ -39,7 +39,6 @@
             color: #ffbb33;
         }
 
-        /* Жёлтый кружок */
         .hero {
             width: 110px;
             height: 110px;
@@ -53,7 +52,6 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
         }
 
-        /* Персонаж внутри жёлтого круга */
         .hero img {
             width: 90px;
             height: 90px;
@@ -88,15 +86,7 @@
             display: block;
         }
 
-        .selected-hero-container {
-            display: none;
-        }
-
-        .pvp-battle {
-            display: none;
-        }
-
-        .shop-menu {
+        .selected-hero-container, .pvp-battle, .shop-menu {
             display: none;
         }
 
@@ -222,53 +212,47 @@
             <h2>Магазин бойцов</h2>
             <p>Выберите нового бойца:</p>
 
-            <!-- Магазин -->
-<div class="shop-menu" id="shop-menu">
-    <h2>Магазин бойцов</h2>
-    <p>Выберите нового бойца:</p>
+            <!-- Персонаж 1 -->
+            <div class="shop-item">
+                <div class="hero">
+                    <img src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/pers.png" alt="Персонаж 1">
+                </div>
+                <div class="info">
+                    <h3>Броня</h3>
+                    <p>Сила: 5</p>
+                    <p>Цена: 20 силы</p>
+                </div>
+                <button onclick="buyHero(5, 100, 'https://raw.githubusercontent.com/rusay523-dotcom/game/main/pers.png')">Купить</button>
+            </div>
 
-    <!-- Персонаж 1 -->
-    <div class="shop-item">
-        <div class="hero">
-            <img src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/pers.png" alt="Броня">
-        </div>
-        <div class="info">
-            <h3>Броня</h3>
-            <p>Сила: 5</p>
-            <p>Цена: 20 силы</p>
-        </div>
-        <button onclick="buyHero(5, 100, 'https://raw.githubusercontent.com/rusay523-dotcom/game/main/pers.png')">Купить</button>
-    </div>
+            <!-- Персонаж 2 -->
+            <div class="shop-item">
+                <div class="hero">
+                    <img src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_weak.png" alt="Персонаж 2">
+                </div>
+                <div class="info">
+                    <h3>Титан</h3>
+                    <p>Сила: 8</p>
+                    <p>Цена: 30 силы</p>
+                </div>
+                <button onclick="buyHero(8, 100, 'https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_weak.png')">Купить</button>
+            </div>
 
-    <!-- Персонаж 2 -->
-    <div class="shop-item">
-        <div class="hero">
-            <img src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_weak.png" alt="Титан">
-        </div>
-        <div class="info">
-            <h3>Титан</h3>
-            <p>Сила: 8</p>
-            <p>Цена: 30 силы</p>
-        </div>
-        <button onclick="buyHero(8, 100, 'https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_weak.png')">Купить</button>
-    </div>
+            <!-- Персонаж 3 -->
+            <div class="shop-item">
+                <div class="hero">
+                    <img src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/pers2.png" alt="Рок">
+                </div>
+                <div class="info">
+                    <h3>Рок</h3>
+                    <p>Сила: 12</p>
+                    <p>Цена: 40 силы</p>
+                </div>
+                <button onclick="buyHero(12, 100, 'https://raw.githubusercontent.com/rusay523-dotcom/game/main/pers2.png')">Купить</button>
+            </div>
 
-    <!-- Персонаж 3 -->
-    <div class="shop-item">
-        <div class="hero">
-            <img src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/pers2.png" alt="Рок">
+            <button onclick="goBack()">Назад</button>
         </div>
-        <div class="info">
-            <h3>Рок</h3>
-            <p>Сила: 12</p>
-            <p>Цена: 40 силы</p>
-        </div>
-        <button onclick="buyHero(12, 100, 'https://raw.githubusercontent.com/rusay523-dotcom/game/main/pers2.png')">Купить</button>
-    </div>
-
-    <button onclick="goBack()">Назад</button>
-</div>
-
 
         <!-- Статистика выбранного героя -->
         <div class="selected-hero-container" id="selected-hero">
@@ -277,7 +261,7 @@
                 <img src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_normal.png" alt="Персонаж">
             </div>
             <p class="stats">Сила: <span id="selected-strength">5</span>, Здоровье: 100</p>
-            <button onclick="trainHero()">Прокачать</button> <!-- Кнопка прокачки -->
+            <button onclick="trainHero()">Прокачать</button>
             <button onclick="goBack()">Назад</button>
         </div>
 
@@ -292,75 +276,44 @@
     </div>
 
     <script>
-        // Загружаем данные из localStorage
         let hero = JSON.parse(localStorage.getItem('hero')) || {
             name: "Качок",
             strength: 5,
             health: 100,
             image: "https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_normal.png",
             lastTrainTime: 0,
-            trainCount: 0 // Счётчик количества прокачек
+            trainCount: 0
         };
 
-        // Обновление статистики
         function updateStats() {
             document.getElementById("strength").textContent = hero.strength;
             document.getElementById("health").textContent = hero.health;
             document.getElementById("selected-strength").textContent = hero.strength;
             document.getElementById("hero-strength").textContent = hero.strength;
-            document.getElementById("hero-img").src = hero.image; // Обновляем изображение
+            document.getElementById("hero-img").src = hero.image;
         }
 
-        // Функция прокачки
-        function trainHero() {
-            const currentTime = new Date().getTime();
-            const timeDifference = (currentTime - hero.lastTrainTime) / 1000; // Время в секундах
-
-            // Проверка, прошло ли 30 минут с последней прокачки
-            if (timeDifference < 1800 && hero.trainCount >= 10) {
-                alert("Вы достигли лимита прокачек за 30 минут.");
-                return;
-            }
-
-            // Ограничиваем силу на 50
-            if (hero.strength < 50) {
-                hero.strength += 2;
-                hero.health += 5;
-                hero.trainCount += 1; // Увеличиваем счётчик прокачек
-                hero.lastTrainTime = currentTime; // Сохраняем время последней прокачки
-                localStorage.setItem('hero', JSON.stringify(hero)); // Сохраняем данные в localStorage
-                updateStats(); // Обновляем статистику
-            } else {
-                alert("Сила уже максимальна!");
-            }
-        }
-
-        // Показываем магазин
-        function openShop() {
-            hideAllScreens();
-            document.querySelector(".shop-menu").style.display = "block";
-        }
-
-        // Показываем "Мой персонаж"
         function showCharacterSelection() {
             hideAllScreens();
             document.getElementById("selected-hero").style.display = "block";
         }
 
-        // Показываем PvP
         function openPvP() {
             hideAllScreens();
             document.querySelector(".pvp-battle").style.display = "block";
         }
 
-        // Вернуться назад
+        function openShop() {
+            hideAllScreens();
+            document.querySelector(".shop-menu").style.display = "block";
+        }
+
         function goBack() {
             hideAllScreens();
             document.getElementById("start-screen").style.display = "block";
-            updateStats(); // Обновляем данные при возврате
+            updateStats();
         }
 
-        // Скрыть все экраны
         function hideAllScreens() {
             document.getElementById("start-screen").style.display = "none";
             document.getElementById("selected-hero").style.display = "none";
@@ -368,34 +321,39 @@
             document.querySelector(".pvp-battle").style.display = "none";
         }
 
-        // Функция покупки персонажа
         function buyHero(strength, health, image) {
             if (hero.strength >= strength) {
-                hero.strength -= strength; // Снижаем силу героя при покупке
-                hero.image = image; // Обновляем изображение
-                localStorage.setItem('hero', JSON.stringify(hero)); // Сохраняем в localStorage
-                updateStats(); // Обновляем данные на экране
+                hero.strength -= strength;
+                hero.image = image;
+                localStorage.setItem('hero', JSON.stringify(hero));
+                updateStats();
                 alert("Персонаж куплен!");
             } else {
                 alert("У вас недостаточно силы для покупки!");
             }
         }
 
-        // Функция PvP
-        function pvpBattle() {
-            let opponentStrength = Math.floor(Math.random() * 10) + 5;
-            let battleResult = hero.strength >= opponentStrength ? "Вы победили!" : "Вы проиграли!";
-            
-            if (battleResult === "Вы победили!") {
-                hero.strength += 5;
-                localStorage.setItem('hero', JSON.stringify(hero)); // Сохраняем изменения в localStorage
-                updateStats(); // Обновляем данные
+        function trainHero() {
+            const currentTime = new Date().getTime();
+            const timeDifference = (currentTime - hero.lastTrainTime) / 1000;
+
+            if (timeDifference < 1800 && hero.trainCount >= 10) {
+                alert("Вы достигли лимита прокачек за 30 минут.");
+                return;
             }
 
-            alert(battleResult);
+            if (hero.strength < 50) {
+                hero.strength += 2;
+                hero.health += 5;
+                hero.trainCount += 1;
+                hero.lastTrainTime = currentTime;
+                localStorage.setItem('hero', JSON.stringify(hero));
+                updateStats();
+            } else {
+                alert("Сила уже максимальна!");
+            }
         }
 
-        // Обновляем статистику при старте игры
         updateStats();
     </script>
 </body>
