@@ -115,9 +115,9 @@
             </div>
             <p class="stats">Сила: <span id="strength">5</span>, Здоровье: 20</p>
             <div class="buttons">
-                <button id="my-character-btn">Мой персонаж</button>
-                <button id="pvp-btn">PvP</button>
-                <button id="shop-btn">Магазин</button>
+                <button id="my-character-btn" onclick="showCharacterSelection()">Мой персонаж</button>
+                <button id="pvp-btn" onclick="openPvP()">PvP</button>
+                <button id="shop-btn" onclick="openShop()">Магазин</button>
             </div>
         </div>
 
@@ -169,6 +169,13 @@
             image: "https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_normal.png" // Указываем ссылку на изображение героя
         };
 
+        // Показать выбор персонажа
+        function showCharacterSelection() {
+            document.getElementById("start-screen").style.display = "none";
+            document.getElementById("character-selection").style.display = "block";
+            document.getElementById("background-hero").style.display = "none"; // Скрыть персонажа
+        }
+
         // Выбор персонажа
         function selectCharacter(strength, health, image) {
             hero.strength = strength;
@@ -180,6 +187,7 @@
             document.getElementById("character-selection").style.display = "none"; 
             document.getElementById("selected-hero-img").innerHTML = `<img src="${hero.image}" alt="Качок" class="hero">`;
             updateStats();
+            document.getElementById("background-hero").style.display = "block"; // Показываем персонажа на фоне
         }
 
         // Функция прокачки
@@ -206,9 +214,7 @@
             document.getElementById("character-selection").style.display = "none";
             document.querySelector(".shop-menu").style.display = "none";
             document.querySelector(".pvp-battle").style.display = "none";
-
-            // Скрываем героя на заднем плане
-            document.getElementById("background-hero").style.display = "none";
+            document.getElementById("background-hero").style.display = "none"; // Скрываем героя
         }
 
         // Открыть PvP экран
@@ -217,9 +223,7 @@
             document.getElementById("selected-hero").style.display = "none";
             document.querySelector(".pvp-battle").style.display = "block";
             document.getElementById("opponent-strength").textContent = Math.floor(Math.random() * 10) + 5;
-
-            // Показываем героя на заднем плане
-            document.getElementById("background-hero").style.display = "block";
+            document.getElementById("background-hero").style.display = "block"; // Показываем героя на фоне
         }
 
         // Открыть магазин
@@ -227,9 +231,7 @@
             document.getElementById("start-screen").style.display = "none";
             document.getElementById("selected-hero").style.display = "none";
             document.querySelector(".shop-menu").style.display = "block";
-
-            // Скрываем героя на заднем плане
-            document.getElementById("background-hero").style.display = "none";
+            document.getElementById("background-hero").style.display = "none"; // Скрываем героя
         }
     </script>
 </body>
