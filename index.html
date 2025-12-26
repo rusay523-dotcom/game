@@ -1,170 +1,195 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Я Качок ULTRA</title>
-<style>
-body {margin:0;font-family:Arial,sans-serif;background:url('gym_bg.png') center/cover no-repeat;height:100vh;color:white;overflow:hidden;text-align:center;}
-.menu, .game {width:100%; max-width:500px; padding:20px; box-sizing:border-box;}
-button {width:100%;padding:12px;margin:10px 0;font-size:18px;border-radius:12px;border:none;cursor:pointer;transition:0.2s;}
-button:hover{transform:scale(1.05);}
-.trainBtn{background:#2196f3;color:white;}
-.aiBtn{background:#ff9800;color:white;}
-.pvpBtn{background:#e91e63;color:white;}
-.settingsBtn{background:#4caf50;color:white;}
-.hidden{display:none;}
-.game img{width:120px;position:absolute;top:40%;transition:transform 0.2s;}
-.jump{transform:translate(-50%,-55%) scale(1.1);}
-.stats{margin-top:250px;}
-.buttons{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);width:90%;max-width:320px;}
-.flash{position:absolute;width:50px;height:50px;border-radius:50%;background:yellow;opacity:0.7;pointer-events:none;animation:flashAnim 0.3s;}
-@keyframes flashAnim{0%{opacity:0.7;}100%{opacity:0;}}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Я Качок: Прокачка и PvP</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: url('gym_bg.png') center/cover no-repeat;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+        }
+
+        .container {
+            position: relative;
+            width: 300px;
+        }
+
+        .hero {
+            width: 120px;
+            height: auto;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: all 1s ease-in-out;
+            transform-origin: bottom center;
+        }
+
+        .progress-bar {
+            margin-top: 20px;
+            width: 100%;
+            height: 20px;
+            background-color: #ddd;
+            border-radius: 10px;
+        }
+
+        .progress {
+            height: 100%;
+            background-color: #4caf50;
+            border-radius: 10px;
+        }
+
+        h1 {
+            font-size: 30px;
+        }
+
+        .buttons {
+            margin-top: 30px;
+        }
+
+        button {
+            background-color: #2196f3;
+            padding: 15px;
+            font-size: 18px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            color: white;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0b7dda;
+        }
+
+        .hero-card {
+            display: inline-block;
+            margin: 20px;
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-card img {
+            width: 150px;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .hero-card button {
+            margin-top: 10px;
+        }
+
+        #selected-hero {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
 
-<div class="menu">
-<h1>💪 Я Качок ULTRA</h1>
-<button class="trainBtn" onclick="startTraining()">Тренировка</button>
-<button class="aiBtn" onclick="startPvP_AI()">PvP с ИИ</button>
-<button class="pvpBtn" onclick="startPvP_Player()">PvP онлайн / Топ</button>
-<button class="settingsBtn" onclick="openSettings()">Настройки героя</button>
-</div>
+    <div class="container">
+        <h1>💪 Прокачка и PvP</h1>
 
-<!-- Тренировка -->
-<div class="game hidden" id="trainingGame">
-<h2>🏋️‍♂️ Тренировка</h2>
-<img id="hero" src="hero.png" style="left:50%;transform:translate(-50%,-50%)">
-<div class="stats">
-🔥 Сила: <span id="power">1</span><br>
-🏆 Очки: <span id="points">0</span>
-</div>
-<button onclick="train()">Тренироваться</button>
-</div>
+        <!-- Меню магазина -->
+        <div class="shop-menu">
+            <h2>Выберите вашего качка для PvP</h2>
+            <div class="heroes">
+                <!-- Качок 1 -->
+                <div class="hero-card">
+                    <img src="hero_weak.png" alt="Качок 1">
+                    <h3>Качок 1</h3>
+                    <p>Сила: 5, Здоровье: 20</p>
+                    <button onclick="buyHero(0)">Купить за 100</button>
+                </div>
 
-<!-- PvP с ИИ -->
-<div class="game hidden" id="pvpGame">
-<h2>⚔ PvP с ИИ</h2>
-<img id="heroPvP" src="hero.png" style="left:25%;transform:translate(-50%,-50%)">
-<img id="enemyPvP" src="enemy.png" style="left:75%;transform:translate(-50%,-50%)">
-<div class="stats">
-💪 Сила: <span id="playerStr">5</span><br>
-❤️ HP: <span id="playerHP">20</span><br>
-⚡ Ловкость: <span id="playerAg">3</span><br>
-💪 Враг сила: <span id="enemyStr">5</span><br>
-❤️ Враг HP: <span id="enemyHP">20</span><br>
-⚡ Враг ловкость: <span id="enemyAg">3</span>
-</div>
-<div class="buttons">
-<button onclick="playerMove('attack')">Атака</button>
-<button onclick="playerMove('defend')">Защита</button>
-<button onclick="playerMove('energy')">Энергетик</button>
-<button onclick="playerMove('train')">Тренировка</button>
-</div>
-</div>
+                <!-- Качок 2 -->
+                <div class="hero-card">
+                    <img src="hero_normal.png" alt="Качок 2">
+                    <h3>Качок 2</h3>
+                    <p>Сила: 10, Здоровье: 30</p>
+                    <button onclick="buyHero(1)">Купить за 200</button>
+                </div>
 
-<!-- PvP онлайн -->
-<div class="game hidden" id="pvpPlayerGame">
-<h2>⚔ PvP онлайн</h2>
-<img id="heroP" src="hero.png" style="left:25%;transform:translate(-50%,-50%)">
-<img id="enemyP" src="enemy.png" style="left:75%;transform:translate(-50%,-50%)">
-<div class="stats">
-💪 Сила: <span id="playerPStr">5</span><br>
-❤️ HP: <span id="playerPHP">20</span><br>
-💪 Враг сила: <span id="enemyPStr">5</span><br>
-❤️ Враг HP: <span id="enemyPHP">20</span>
-</div>
-<div class="buttons">
-<button onclick="playerMoveOnline('attack')">Атака</button>
-<button onclick="playerMoveOnline('defend')">Защита</button>
-<button onclick="playerMoveOnline('energy')">Энергетик</button>
-<button onclick="playerMoveOnline('train')">Тренировка</button>
-</div>
-<h3>Топ игроков</h3>
-<ul id="topList"></ul>
-</div>
+                <!-- Качок 3 -->
+                <div class="hero-card">
+                    <img src="hero_strong.png" alt="Качок 3">
+                    <h3>Качок 3</h3>
+                    <p>Сила: 15, Здоровье: 40</p>
+                    <button onclick="buyHero(2)">Купить за 300</button>
+                </div>
+            </div>
+        </div>
 
-<!-- Настройки героя -->
-<div class="game hidden" id="settingsGame">
-<h2>⚙ Настройки героя</h2>
-<p>Выбор скина и цвета героя</p>
-<button onclick="showMenu()">Назад</button>
-</div>
+        <!-- Статистика выбранного героя -->
+        <div id="selected-hero">
+            <h2>Ваш выбранный качок:</h2>
+            <img src="" id="hero-img" alt="Ваш качок">
+            <p id="hero-name"></p>
+            <p id="hero-strength"></p>
+            <p id="hero-health"></p>
+            <p id="hero-level"></p>
+            <button onclick="train()">Прокачать</button>
+            <button onclick="startPvP()">Начать бой</button>
+        </div>
+    </div>
 
-<script>
-// Главное меню
-function showMenu(){
-    document.querySelector('.menu').classList.remove('hidden');
-    document.getElementById('trainingGame').classList.add('hidden');
-    document.getElementById('pvpGame').classList.add('hidden');
-    document.getElementById('pvpPlayerGame').classList.add('hidden');
-    document.getElementById('settingsGame').classList.add('hidden');
-}
-function openSettings(){ document.querySelector('.menu').classList.add('hidden'); document.getElementById('settingsGame').classList.remove('hidden'); }
+    <script>
+        const heroes = [
+            {
+                id: "hero1",
+                name: "Качок 1",
+                img: "hero_weak.png",
+                strength: 5,
+                health: 20,
+                level: 1,
+                price: 100,
+            },
+            {
+                id: "hero2",
+                name: "Качок 2",
+                img: "hero_normal.png",
+                strength: 10,
+                health: 30,
+                level: 1,
+                price: 200,
+            },
+            {
+                id: "hero3",
+                name: "Качок 3",
+                img: "hero_strong.png",
+                strength: 15,
+                health: 40,
+                level: 1,
+                price: 300,
+            }
+        ];
 
-// === Тренировка ===
-let power=1, points=0;
-function startTraining(){ document.querySelector('.menu').classList.add('hidden'); document.getElementById('trainingGame').classList.remove('hidden'); }
-function train(){
-    power++; points++;
-    document.getElementById('power').textContent=power;
-    document.getElementById('points').textContent=points;
-    const hero=document.getElementById('hero');
-    hero.classList.add('jump');
-    setTimeout(()=>hero.classList.remove('jump'),200);
-}
+        let userCurrency = 500;  // Начальная валюта
+        let selectedHero = null;
 
-// === PvP с ИИ ===
-let player={hp:20,str:5,ag:3};
-let enemy={hp:20,str:5,ag:3};
-function startPvP_AI(){ document.querySelector('.menu').classList.add('hidden'); document.getElementById('pvpGame').classList.remove('hidden'); resetPvP(); }
-function updateStatsPvP(){ document.getElementById('playerHP').textContent=player.hp; document.getElementById('playerStr').textContent=player.str; document.getElementById('playerAg').textContent=player.ag; document.getElementById('enemyHP').textContent=enemy.hp; document.getElementById('enemyStr').textContent=enemy.str; document.getElementById('enemyAg').textContent=enemy.ag; }
-function resetPvP(){ player={hp:20,str:5,ag:3}; enemy={hp:20,str:5,ag:3}; updateStatsPvP(); }
-function calculateDamage(attacker,defender){ let base=attacker.str*(0.8+Math.random()*0.4); if(Math.random()*10<defender.ag) base=0; return Math.floor(base); }
-function animateJump(id){ const el=document.getElementById(id); el.classList.add('jump'); setTimeout(()=>el.classList.remove('jump'),200); }
-function flashEffect(x,y){ const f=document.createElement("div"); f.className="flash"; f.style.left=x-25+"px"; f.style.top=y-25+"px"; document.body.appendChild(f); setTimeout(()=>document.body.removeChild(f),300); }
-function playerMove(move){ 
-    if(move==='attack'){ enemy.hp-=calculateDamage(player,enemy); animateJump('heroPvP'); flashEffect(document.getElementById('enemyPvP').getBoundingClientRect().left+60,document.getElementById('enemyPvP').getBoundingClientRect().top+60);}
-    else if(move==='defend'){ player.str+=1; animateJump('heroPvP'); }
-    else if(move==='energy'){ player.str+=2; animateJump('heroPvP'); }
-    else if(move==='train'){ player.str+=1; player.hp+=1; player.ag+=1; animateJump('heroPvP'); }
-    updateStatsPvP(); setTimeout(enemyMovePvP,500); checkWinPvP();
-}
-function enemyMovePvP(){ let move; if(enemy.hp<=5 && enemy.str<player.str) move=Math.random()<0.7?'energy':'defend'; else if(player.hp<=5) move=Math.random()<0.7?'attack':'train'; else move=Math.random()<0.5?'attack':'train'; if(move==='attack'){ player.hp-=calculateDamage(enemy,player); animateJump('enemyPvP'); flashEffect(document.getElementById('heroPvP').getBoundingClientRect().left+60,document.getElementById('heroPvP').getBoundingClientRect().top+60);} else if(move==='defend') enemy.str+=1; else if(move==='energy') enemy.str+=2; else if(move==='train'){ enemy.str+=1; enemy.hp+=1; } updateStatsPvP(); checkWinPvP(); }
-function checkWinPvP(){ if(player.hp<=0){ alert("😢 Ты проиграл!"); showMenu(); } else if(enemy.hp<=0){ alert("🏆 Победа!"); showMenu(); } }
+        function buyHero(heroIndex) {
+            const hero = heroes[heroIndex];
 
-// === PvP онлайн через WebSocket ===
-let ws = new WebSocket('ws://localhost:8080');
-let playerId = 'Игрок_' + Math.floor(Math.random()*1000);
-ws.onopen = ()=>console.log("Подключено к серверу PvP");
-ws.onmessage = function(event){ 
-    let msg = JSON.parse(event.data);
-    if(msg.type==='move'){
-        document.getElementById('enemyPHP').textContent = msg.enemy.hp;
-        document.getElementById('enemyPStr').textContent = msg.enemy.str;
-        animateJump('enemyP');
-    }
-    else if(msg.type==='top'){
-        const ul = document.getElementById('topList'); ul.innerHTML=''; for(let key in msg.data){ const li=document.createElement('li'); li.textContent=`${key}: ${msg.data[key]} побед`; ul.appendChild(li);}
-    }
-};
-function startPvP_Player(){ document.querySelector('.menu').classList.add('hidden'); document.getElementById('pvpPlayerGame').classList.remove('hidden'); }
-function playerMoveOnline(move){
-    let player={hp: parseInt(document.getElementById('playerPHP').textContent), str: parseInt(document.getElementById('playerPStr').textContent)};
-    let enemy={hp: parseInt(document.getElementById('enemyPHP').textContent), str: parseInt(document.getElementById('enemyPStr').textContent)};
-    if(move==='attack') enemy.hp -= Math.floor(Math.random()*3+1+player.str*0.5);
-    else if(move==='defend') player.str +=1;
-    else if(move==='energy') player.str +=2;
-    else if(move==='train'){ player.str+=1; player.hp+=1; }
-    ws.send(JSON.stringify({type:'move', playerId, player, enemy}));
-    document.getElementById('playerPHP').textContent = player.hp;
-    document.getElementById('playerPStr').textContent = player.str;
-    animateJump('heroP');
-    if(enemy.hp<=0){ ws.send(JSON.stringify({type:'win', winner:playerId})); alert("🏆 Победа!"); showMenu(); }
-    else if(player.hp<=0){ ws.send(JSON.stringify({type:'win', winner:'enemy'})); alert("😢 Ты проиграл!"); showMenu(); }
-}
-</script>
+            if (userCurrency >= hero.price) {
+                userCurrency -= hero.price;
+                alert(`Вы купили ${hero.name} за ${hero.price} монет.`);
+                selectHero(hero);
+            } else {
+                alert("У вас недостаточно монет!");
+            }
+        }
 
-</body>
-</html>
+        function selectHero(hero) {
+            // Отображаем выбранного героя
+            document.getElementById("hero-img").src = hero.img;
+            document.getElementById("hero-name").innerText = `Имя: ${hero.name}`;
+            document.getElementById("hero-strength").innerText = `Сила: ${hero.strength}`;
+            document.getElementById("hero-health").innerText = `З
