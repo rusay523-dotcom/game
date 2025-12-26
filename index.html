@@ -15,11 +15,15 @@
             align-items: center;
             color: white;
             text-align: center;
+            overflow: hidden;
         }
 
         .container {
             position: relative;
-            width: 300px;
+            width: 100%;
+            max-width: 350px;
+            padding: 20px;
+            box-sizing: border-box;
         }
 
         .hero {
@@ -47,50 +51,52 @@
         }
 
         h1 {
-            font-size: 30px;
+            font-size: 25px;
         }
 
         .buttons {
-            margin-top: 30px;
+            margin-top: 20px;
         }
 
         button {
             background-color: #2196f3;
-            padding: 15px;
-            font-size: 18px;
+            padding: 12px;
+            font-size: 16px;
             border-radius: 12px;
             border: none;
             cursor: pointer;
             color: white;
             transition: background-color 0.3s;
+            width: 100%;
         }
 
         button:hover {
             background-color: #0b7dda;
         }
 
-        /* Магазин */
-        .shop-menu {
-            text-align: center;
-        }
-
         .hero-card {
             display: inline-block;
-            margin: 20px;
+            margin: 10px;
             background-color: rgba(0, 0, 0, 0.6);
-            padding: 20px;
+            padding: 10px;
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            width: 80%;
         }
 
         .hero-card img {
-            width: 150px;
+            width: 100px;
             height: auto;
             border-radius: 10px;
         }
 
+        .hero-card h3 {
+            font-size: 18px;
+        }
+
         .hero-card button {
-            margin-top: 10px;
+            margin-top: 8px;
+            width: 100%;
         }
 
         #selected-hero {
@@ -101,6 +107,17 @@
             display: none;
             margin-top: 20px;
             font-size: 20px;
+        }
+
+        .shop-menu {
+            display: block;
+            text-align: center;
+        }
+
+        .shop-menu .heroes {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
         }
     </style>
 </head>
@@ -183,68 +200,4 @@
 
         function selectHero(hero) {
             // Отображаем выбранного героя
-            document.getElementById("hero-img").src = hero.img;
-            document.getElementById("hero-name").innerText = `Имя: ${hero.name}`;
-            document.getElementById("hero-strength").innerText = `Сила: ${hero.strength}`;
-            document.getElementById("hero-health").innerText = `Здоровье: ${hero.health}`;
-            document.getElementById("hero-level").innerText = `Уровень: ${hero.level}`;
-            selectedHero = hero;
-        }
-
-        function train() {
-            if (!selectedHero) {
-                alert("Выберите героя для прокачки!");
-                return;
-            }
-
-            // Прокачиваем героя
-            selectedHero.strength += 2;
-            selectedHero.health += 5;
-            selectedHero.level += 1;
-
-            document.getElementById("hero-strength").innerText = `Сила: ${selectedHero.strength}`;
-            document.getElementById("hero-health").innerText = `Здоровье: ${selectedHero.health}`;
-            document.getElementById("hero-level").innerText = `Уровень: ${selectedHero.level}`;
-            alert(`Вы прокачали ${selectedHero.name}!`);
-        }
-
-        function startPvP() {
-            if (!selectedHero) {
-                alert("Выберите героя для PvP!");
-                return;
-            }
-
-            // Логика для начала PvP
-            const enemy = getRandomEnemy();
-            const result = battle(selectedHero, enemy);
-            document.getElementById("battle-result").innerText = result;
-            document.getElementById("pvp-battle").style.display = "block";
-        }
-
-        function getRandomEnemy() {
-            // Случайно выбираем врага из списка
-            const enemyIndex = Math.floor(Math.random() * heroes.length);
-            return heroes[enemyIndex];
-        }
-
-        function battle(hero, enemy) {
-            // Битва между героями
-            let heroDamage = hero.strength * Math.random();
-            let enemyDamage = enemy.strength * Math.random();
-
-            if (Math.random() < 0.1) heroDamage *= 2;  // Критический удар
-
-            if (heroDamage > enemyDamage) {
-                return `Победа! Ваш боец победил ${enemy.name}.`;
-            } else {
-                return `Поражение. Ваш боец проиграл ${enemy.name}.`;
-            }
-        }
-
-        function resetBattle() {
-            document.getElementById("pvp-battle").style.display = "none";
-        }
-    </script>
-
-</body>
-</html>
+            document.getElementById("hero-img").src =
