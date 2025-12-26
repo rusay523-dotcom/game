@@ -67,10 +67,12 @@
             display: none;
         }
 
+        /* Главное меню */
         .menu-container {
             display: block;
         }
 
+        /* Экран выбранного персонажа */
         .selected-hero-container {
             display: none;
         }
@@ -165,11 +167,9 @@
             hero.health = health;
             hero.image = image;
 
-            // Показываем выбранного героя, но главное меню оставляем
-            document.getElementById("selected-hero").style.display = "block";
-            document.getElementById("start-screen").style.display = "block"; // Главное меню остаётся
+            // Обновляем экран выбранного персонажа, но главное меню остаётся
+            document.getElementById("selected-hero").style.display = "block"; // Показываем экран с выбранным персонажем
             document.querySelector(".shop-menu").style.display = "none"; // Скрываем магазин
-            document.getElementById("selected-hero-img").className = image;
             updateStats();
         }
 
@@ -190,3 +190,6 @@
         document.getElementById("pvp-btn").addEventListener("click", openPvP);
         document.getElementById("shop-btn").addEventListener("click", openShop);
         document.getElementById("train-selected-btn").addEventListener("click", train);
+    </script>
+</body>
+</html>
