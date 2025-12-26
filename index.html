@@ -67,12 +67,10 @@
             display: none;
         }
 
-        /* Главное меню */
         .menu-container {
             display: block;
         }
 
-        /* Экран выбранного персонажа */
         .selected-hero-container {
             display: none;
         }
@@ -100,6 +98,7 @@
             <div id="selected-hero-img" class="hero"></div>
             <p class="stats">Сила: <span id="selected-strength">5</span>, Здоровье: 20</p>
             <button id="train-selected-btn">Прокачать</button>
+            <button onclick="goBack()">Назад</button>
         </div>
 
         <!-- Магазин -->
@@ -109,6 +108,7 @@
             <button onclick="buyHero(5, 20, 'hero')">Слабый Качок (5 Сила, 20 Здоровье)</button>
             <button onclick="buyHero(8, 30, 'hero2')">Средний Качок (8 Сила, 30 Здоровье)</button>
             <button onclick="buyHero(12, 40, 'hero3')">Сильный Качок (12 Сила, 40 Здоровье)</button>
+            <button onclick="goBack()">Назад</button>
         </div>
 
         <!-- PvP -->
@@ -117,11 +117,11 @@
             <p>Сила вашего героя: <span id="hero-strength">5</span></p>
             <p>Сила противника: <span id="opponent-strength">---</span></p>
             <button onclick="pvpBattle()">Начать бой</button>
+            <button onclick="goBack()">Назад</button>
         </div>
     </div>
 
     <script>
-        // Переменная для героя
         let hero = {
             name: "Качок",
             strength: 5,
@@ -171,6 +171,14 @@
             document.getElementById("selected-hero").style.display = "block"; // Показываем экран с выбранным персонажем
             document.querySelector(".shop-menu").style.display = "none"; // Скрываем магазин
             updateStats();
+        }
+
+        // Вернуться назад
+        function goBack() {
+            document.getElementById("start-screen").style.display = "block";
+            document.getElementById("selected-hero").style.display = "none";
+            document.querySelector(".shop-menu").style.display = "none";
+            document.querySelector(".pvp-battle").style.display = "none";
         }
 
         // PvP битва
