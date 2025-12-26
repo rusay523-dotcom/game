@@ -158,15 +158,23 @@
         <!-- Выбор персонажа -->
         <div class="character-selection" id="character-selection" style="display: none;">
             <h2>Выберите персонажа:</h2>
-            <img src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_normal.png" alt="Качок 1" onclick="selectCharacter(5, 20, 'hero1')">
-            <img src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_weak.png" alt="Качок 2" onclick="selectCharacter(8, 30, 'hero2')">
-            <img src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_strong.png" alt="Качок 3" onclick="selectCharacter(12, 40, 'hero3')">
+            <div class="hero">
+                <img src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_normal.png" alt="Качок 1" onclick="selectCharacter(5, 20, 'hero1')">
+            </div>
+            <div class="hero">
+                <img src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_weak.png" alt="Качок 2" onclick="selectCharacter(8, 30, 'hero2')">
+            </div>
+            <div class="hero">
+                <img src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_strong.png" alt="Качок 3" onclick="selectCharacter(12, 40, 'hero3')">
+            </div>
         </div>
 
         <!-- Статистика выбранного героя -->
         <div class="selected-hero-container" id="selected-hero">
             <h2>Ваш выбранный боец:</h2>
-            <div id="selected-hero-img" class="hero"></div>
+            <div id="selected-hero-img" class="hero">
+                <img src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_normal.png" alt="Персонаж">
+            </div>
             <p class="stats">Сила: <span id="selected-strength">5</span>, Здоровье: 20</p>
             <button id="train-selected-btn" onclick="train()">Прокачать</button>
             <button onclick="goBack()">Назад</button>
