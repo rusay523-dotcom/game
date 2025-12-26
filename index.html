@@ -5,199 +5,199 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Бойцы - Прокачка и PvP</title>
     <style>
-    body {
-        margin: 0;
-        font-family: 'Arial', sans-serif;
-        background-image: url('https://raw.githubusercontent.com/rusay523-dotcom/game/main/gym_bg.png');
-        background-size: cover;
-        background-position: center;
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: white;
-        text-align: center;
-        overflow: hidden;
-    }
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-image: url('https://raw.githubusercontent.com/rusay523-dotcom/game/main/gym_bg.png');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            overflow: hidden;
+        }
 
-    .container {
-        position: relative;
-        width: 100%;
-        max-width: 400px; /* Уменьшено максимальное значение */
-        padding: 15px;
-        box-sizing: border-box;
-        background: rgba(0, 0, 0, 0.6); /* Добавим полупрозрачный фон */
-        border-radius: 25px;
-        z-index: 2;
-        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.7);
-    }
-
-    h1 {
-        font-size: 30px; /* Уменьшено для мобильных устройств */
-        font-weight: bold;
-        margin-bottom: 20px;
-        color: #ffbb33; /* Яркий оранжевый для заголовка */
-    }
-
-    /* Жёлтый кружок */
-    .hero {
-        width: 110px; /* Уменьшен размер */
-        height: 110px;
-        background-color: #ffbb33; /* Жёлтый фон для круга */
-        border-radius: 50%;
-        margin: 15px auto; /* Уменьшен отступ */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        overflow: hidden;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.6); /* Добавим лёгкую тень */
-    }
-
-    /* Персонаж внутри жёлтого круга */
-    .hero img {
-        width: 90px; /* Уменьшен размер изображения */
-        height: 90px;
-        object-fit: cover; /* Персонаж будет хорошо вписан в круг */
-    }
-
-    .buttons button {
-        background-color: #2196f3;
-        padding: 10px;
-        font-size: 16px; /* Уменьшено для мобильных устройств */
-        border-radius: 20px;
-        border: none;
-        cursor: pointer;
-        color: white;
-        width: 100%;
-        margin: 10px 0;
-        transition: background-color 0.3s, transform 0.3s;
-    }
-
-    .buttons button:hover {
-        background-color: #0b7dda;
-        transform: translateY(-2px);
-    }
-
-    .stats {
-        font-size: 18px; /* Уменьшено для мобильных устройств */
-        margin: 15px 0;
-        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-    }
-
-    .menu-container {
-        display: block;
-    }
-
-    .selected-hero-container {
-        display: none;
-    }
-
-    .pvp-battle {
-        display: none;
-    }
-
-    .shop-menu {
-        display: none;
-    }
-
-    .shop-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 10px; /* Уменьшен отступ */
-        padding: 8px;
-        background-color: rgba(255, 255, 255, 0.1);
-        border-radius: 10px;
-    }
-
-    .shop-item .hero {
-        width: 80px; /* Уменьшен размер */
-        height: 80px;
-    }
-
-    .shop-item .hero img {
-        width: 80px;
-        height: 80px;
-    }
-
-    .shop-item .info {
-        flex: 1;
-        margin-left: 10px;
-        text-align: left;
-    }
-
-    .shop-item .info h3 {
-        margin: 0;
-        font-size: 16px; /* Уменьшено для мобильных устройств */
-    }
-
-    .shop-item .info p {
-        margin: 3px 0;
-        font-size: 14px; /* Уменьшено для мобильных устройств */
-    }
-
-    .shop-item button {
-        background-color: #2196f3;
-        color: white;
-        padding: 8px 15px; /* Уменьшен размер кнопки */
-        border: none;
-        border-radius: 20px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-    }
-
-    .shop-item button:hover {
-        background-color: #0b7dda;
-    }
-
-    @media (max-width: 600px) {
         .container {
-            max-width: 350px; /* Уменьшение максимальной ширины */
+            position: relative;
+            width: 100%;
+            max-width: 400px; /* Уменьшено максимальное значение */
+            padding: 15px;
+            box-sizing: border-box;
+            background: rgba(0, 0, 0, 0.6); /* Добавим полупрозрачный фон */
+            border-radius: 25px;
+            z-index: 2;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.7);
         }
 
+        h1 {
+            font-size: 30px; /* Уменьшено для мобильных устройств */
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #ffbb33; /* Яркий оранжевый для заголовка */
+        }
+
+        /* Жёлтый кружок */
         .hero {
-            width: 100px;
-            height: 100px;
+            width: 110px; /* Уменьшен размер */
+            height: 110px;
+            background-color: #ffbb33; /* Жёлтый фон для круга */
+            border-radius: 50%;
+            margin: 15px auto; /* Уменьшен отступ */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.6); /* Добавим лёгкую тень */
         }
 
+        /* Персонаж внутри жёлтого круга */
         .hero img {
+            width: 90px; /* Уменьшен размер изображения */
+            height: 90px;
+            object-fit: cover; /* Персонаж будет хорошо вписан в круг */
+        }
+
+        .buttons button {
+            background-color: #2196f3;
+            padding: 10px;
+            font-size: 16px; /* Уменьшено для мобильных устройств */
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            color: white;
+            width: 100%;
+            margin: 10px 0;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .buttons button:hover {
+            background-color: #0b7dda;
+            transform: translateY(-2px);
+        }
+
+        .stats {
+            font-size: 18px; /* Уменьшено для мобильных устройств */
+            margin: 15px 0;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .menu-container {
+            display: block;
+        }
+
+        .selected-hero-container {
+            display: none;
+        }
+
+        .pvp-battle {
+            display: none;
+        }
+
+        .shop-menu {
+            display: none;
+        }
+
+        .shop-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px; /* Уменьшен отступ */
+            padding: 8px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .shop-item .hero {
+            width: 80px; /* Уменьшен размер */
+            height: 80px;
+        }
+
+        .shop-item .hero img {
             width: 80px;
             height: 80px;
         }
 
-        h1 {
-            font-size: 24px;
-            margin-bottom: 15px;
-        }
-
-        .buttons button {
-            font-size: 14px; /* Уменьшение шрифта на мобильных устройствах */
-            padding: 8px;
-        }
-
-        .shop-item .hero {
-            width: 70px; /* Уменьшение размера в магазине */
-            height: 70px;
-        }
-
-        .shop-item .hero img {
-            width: 70px;
-            height: 70px;
+        .shop-item .info {
+            flex: 1;
+            margin-left: 10px;
+            text-align: left;
         }
 
         .shop-item .info h3 {
-            font-size: 14px;
+            margin: 0;
+            font-size: 16px; /* Уменьшено для мобильных устройств */
         }
 
         .shop-item .info p {
-            font-size: 12px;
+            margin: 3px 0;
+            font-size: 14px; /* Уменьшено для мобильных устройств */
         }
 
         .shop-item button {
-            padding: 6px 12px;
+            background-color: #2196f3;
+            color: white;
+            padding: 8px 15px; /* Уменьшен размер кнопки */
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
         }
-    }
-</style>
+
+        .shop-item button:hover {
+            background-color: #0b7dda;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                max-width: 350px; /* Уменьшение максимальной ширины */
+            }
+
+            .hero {
+                width: 100px;
+                height: 100px;
+            }
+
+            .hero img {
+                width: 80px;
+                height: 80px;
+            }
+
+            h1 {
+                font-size: 24px;
+                margin-bottom: 15px;
+            }
+
+            .buttons button {
+                font-size: 14px; /* Уменьшение шрифта на мобильных устройствах */
+                padding: 8px;
+            }
+
+            .shop-item .hero {
+                width: 70px; /* Уменьшение размера в магазине */
+                height: 70px;
+            }
+
+            .shop-item .hero img {
+                width: 70px;
+                height: 70px;
+            }
+
+            .shop-item .info h3 {
+                font-size: 14px;
+            }
+
+            .shop-item .info p {
+                font-size: 12px;
+            }
+
+            .shop-item button {
+                padding: 6px 12px;
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -228,7 +228,7 @@
                     <img src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_normal.png" alt="Персонаж 1">
                 </div>
                 <div class="info">
-                    <h3>Персонаж 1</h3>
+                    <h3>Броня</h3>
                     <p>Сила: 5</p>
                     <p>Цена: 20 силы</p>
                 </div>
@@ -241,7 +241,7 @@
                     <img src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_weak.png" alt="Персонаж 2">
                 </div>
                 <div class="info">
-                    <h3>Персонаж 2</h3>
+                    <h3>Титан</h3>
                     <p>Сила: 8</p>
                     <p>Цена: 30 силы</p>
                 </div>
@@ -254,7 +254,7 @@
                     <img src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_strong.png" alt="Персонаж 3">
                 </div>
                 <div class="info">
-                    <h3>Персонаж 3</h3>
+                    <h3>Рок</h3>
                     <p>Сила: 12</p>
                     <p>Цена: 40 силы</p>
                 </div>
@@ -364,4 +364,3 @@
     </script>
 </body>
 </html>
-
