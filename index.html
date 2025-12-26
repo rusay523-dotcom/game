@@ -285,8 +285,8 @@
     </div>
 
     <script>
-        // Инициализация героя с начальным значением силы 5 и здоровья 100
-        let hero = {
+        // Проверяем наличие сохранённых данных в localStorage
+        let hero = JSON.parse(localStorage.getItem('hero')) || {
             name: "Качок",
             strength: 5,
             health: 100,
@@ -299,6 +299,7 @@
             document.getElementById("health").textContent = hero.health;
             document.getElementById("selected-strength").textContent = hero.strength;
             document.getElementById("hero-strength").textContent = hero.strength;
+            document.getElementById("hero-img").src = hero.image; // Обновляем изображение персонажа
         }
 
         // Показываем магазин
@@ -323,6 +324,7 @@
         function goBack() {
             hideAllScreens();
             document.getElementById("start-screen").style.display = "block";
+            updateStats(); // Обновляем данные при возврате
         }
 
         // Скрыть все экраны
@@ -337,9 +339,9 @@
         function buyHero(strength, health, image) {
             if (hero.strength >= strength) {
                 hero.strength -= strength; // Снижаем силу героя при покупке
-                hero.image = image;
-                updateStats();
-                document.getElementById("hero-img").src = hero.image;
+                hero.image = image; // Обновляем изображение
+                localStorage.setItem('hero', JSON.stringify(hero)); // Сохраняем в localStorage
+                updateStats(); // Обновляем данные на экране
                 alert("Персонаж куплен!");
             } else {
                 alert("У вас недостаточно силы для покупки!");
@@ -353,7 +355,8 @@
             
             if (battleResult === "Вы победили!") {
                 hero.strength += 5;
-                updateStats();
+                localStorage.setItem('hero', JSON.stringify(hero)); // Сохраняем изменения в localStorage
+                updateStats(); // Обновляем данные
             }
 
             alert(battleResult);
