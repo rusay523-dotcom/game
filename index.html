@@ -279,7 +279,7 @@
         let hero = JSON.parse(localStorage.getItem('hero')) || {
             name: "Качок",
             strength: 5,
-            health: 100,
+            health: 100,  // Здоровье остается фиксированным
             image: "https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_normal.png",
             lastTrainTime: 0,
             trainCount: 0
@@ -287,7 +287,7 @@
 
         function updateStats() {
             document.getElementById("strength").textContent = hero.strength;
-            document.getElementById("health").textContent = hero.health;
+            document.getElementById("health").textContent = hero.health;  // Здоровье не изменяется при прокачке
             document.getElementById("selected-strength").textContent = hero.strength;
             document.getElementById("hero-strength").textContent = hero.strength;
             document.getElementById("hero-img").src = hero.image;
@@ -344,7 +344,6 @@
 
             if (hero.strength < 50) {
                 hero.strength += 2;
-                hero.health += 5;
                 hero.trainCount += 1;
                 hero.lastTrainTime = currentTime;
                 localStorage.setItem('hero', JSON.stringify(hero));
@@ -352,6 +351,19 @@
             } else {
                 alert("Сила уже максимальна!");
             }
+        }
+
+        function pvpBattle() {
+            let opponentStrength = Math.floor(Math.random() * 10) + 5;
+            let battleResult = hero.strength >= opponentStrength ? "Вы победили!" : "Вы проиграли!";
+
+            if (battleResult === "Вы проиграли!") {
+                hero.health -= 10;  // Здоровье уменьшается при поражении в PvP
+                localStorage.setItem('hero', JSON.stringify(hero));
+                updateStats();
+            }
+
+            alert(battleResult);
         }
 
         updateStats();
