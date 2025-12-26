@@ -28,7 +28,7 @@
 
         .hero {
             width: 120px;
-            height: 50%;
+            height: auto;
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
@@ -36,22 +36,9 @@
             transform-origin: bottom center;
         }
 
-        .progress-bar {
-            margin-top: 20px;
-            width: 100%;
-            height: 20px;
-            background-color: #ddd;
-            border-radius: 10px;
-        }
-
-        .progress {
-            height: 100%;
-            background-color: #4caf50;
-            border-radius: 10px;
-        }
-
         h1 {
-            font-size: 25px;
+            font-size: 30px;
+            margin-bottom: 20px;
         }
 
         .buttons {
@@ -68,6 +55,7 @@
             color: white;
             transition: background-color 0.3s;
             width: 100%;
+            margin: 10px 0;
         }
 
         button:hover {
@@ -81,7 +69,8 @@
             padding: 10px;
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            width: 80%;
+            width: 100%;
+            max-width: 120px;
         }
 
         .hero-card img {
@@ -120,6 +109,12 @@
             justify-content: space-around;
             flex-wrap: wrap;
         }
+
+        .pvp-info {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
     </style>
 </head>
 <body>
@@ -175,7 +170,10 @@
         <!-- ПвП -->
         <div class="pvp-battle" style="display: none;">
             <h2>PvP Бой!</h2>
-            <p>Сила вашего героя: <span id="hero-strength">5</span></p>
+            <div class="pvp-info">
+                <p>Сила вашего героя: <span id="hero-strength">5</span></p>
+                <p>Сила противника: <span id="opponent-strength">---</span></p>
+            </div>
             <button onclick="pvpBattle()">Начать бой</button>
         </div>
     </div>
@@ -200,6 +198,7 @@
         // Функция для обновления статистики
         function updateStats() {
             document.querySelector("#hero-stats").textContent = `Сила: ${hero.strength}, Здоровье: ${hero.health}`;
+            document.querySelector("#hero-strength").textContent = hero.strength;
         }
 
         // Функция для открытия магазина
@@ -214,6 +213,7 @@
             document.getElementById("start-screen").style.display = "none";
             document.getElementById("selected-hero").style.display = "none";
             document.querySelector(".pvp-battle").style.display = "block";
+            document.getElementById("opponent-strength").textContent = Math.floor(Math.random() * 10) + 5;
         }
 
         // Функция для покупки нового героя из магазина
@@ -231,16 +231,10 @@
 
         // Функция для победы в PvP
         function pvpBattle() {
-            let opponentStrength = Math.floor(Math.random() * 10) + 5;  // Сила противника
+            let opponentStrength = parseInt(document.getElementById("opponent-strength").textContent);
             if (hero.strength > opponentStrength) {
                 alert("Вы победили!");
             } else {
                 alert("Вы проиграли, попробуйте снова!");
             }
-            document.querySelector(".pvp-battle").style.display = "none";
-            document.getElementById("start-screen").style.display = "block";
-        }
-    </script>
-</body>
-</html>
-
+            document.querySelector(".pvp-battle").
