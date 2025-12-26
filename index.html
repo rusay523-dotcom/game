@@ -161,7 +161,7 @@
             <div id="hero" class="hero">
                 <img id="hero-img" src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_normal.png" alt="Персонаж" />
             </div>
-            <p class="stats">Сила: <span id="strength">5</span>, Здоровье: 20</p>
+            <p class="stats">Сила: <span id="strength">5</span>, Здоровье: <span id="health">100</span></p>
             <div class="buttons">
                 <button id="my-character-btn" onclick="showCharacterSelection()">Мой персонаж</button>
                 <button id="pvp-btn" onclick="openPvP()">PvP</button>
@@ -222,7 +222,7 @@
             <div id="selected-hero-img" class="hero">
                 <img src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_normal.png" alt="Персонаж">
             </div>
-            <p class="stats">Сила: <span id="selected-strength">5</span>, Здоровье: 20</p>
+            <p class="stats">Сила: <span id="selected-strength">5</span>, Здоровье: 100</p>
             <button onclick="goBack()">Назад</button>
         </div>
 
@@ -237,35 +237,44 @@
     </div>
 
     <script>
+        // Инициализация героя с начальным значением силы 5 и здоровья 100
         let hero = {
             name: "Качок",
             strength: 5,
-            health: 20,
+            health: 100,
             image: "https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_normal.png"
         };
 
+        // Обновление статистики на экране
+        function updateStats() {
+            document.getElementById("strength").textContent = hero.strength;
+            document.getElementById("health").textContent = hero.health;
+            document.getElementById("selected-strength").textContent = hero.strength;
+            document.getElementById("hero-strength").textContent = hero.strength;
+        }
+
         // Показываем магазин
         function openShop() {
-            hideAllScreens();  // Скрыть все экраны
-            document.querySelector(".shop-menu").style.display = "block";  // Показать магазин
+            hideAllScreens();
+            document.querySelector(".shop-menu").style.display = "block";
         }
 
         // Показываем "Мой персонаж"
         function showCharacterSelection() {
-            hideAllScreens();  // Скрыть все экраны
-            document.getElementById("selected-hero").style.display = "block";  // Показать экран "Мой персонаж"
+            hideAllScreens();
+            document.getElementById("selected-hero").style.display = "block";
         }
 
         // Показываем PvP
         function openPvP() {
-            hideAllScreens();  // Скрыть все экраны
-            document.querySelector(".pvp-battle").style.display = "block";  // Показать PvP
+            hideAllScreens();
+            document.querySelector(".pvp-battle").style.display = "block";
         }
 
         // Вернуться назад
         function goBack() {
-            hideAllScreens();  // Скрыть все экраны
-            document.getElementById("start-screen").style.display = "block";  // Показать главное меню
+            hideAllScreens();
+            document.getElementById("start-screen").style.display = "block";
         }
 
         // Скрыть все экраны
@@ -289,13 +298,6 @@
             }
         }
 
-        // Обновление статистики на экране
-        function updateStats() {
-            document.getElementById("strength").textContent = hero.strength;
-            document.getElementById("selected-strength").textContent = hero.strength;
-            document.getElementById("hero-strength").textContent = hero.strength;
-        }
-
         // Функция PvP
         function pvpBattle() {
             let opponentStrength = Math.floor(Math.random() * 10) + 5;
@@ -308,6 +310,9 @@
 
             alert(battleResult);
         }
+
+        // Обновляем статистику при старте игры
+        updateStats();
     </script>
 </body>
 </html>
