@@ -258,6 +258,9 @@
             document.querySelector(".shop-menu").style.display = "none";
             document.querySelector(".pvp-battle").style.display = "none";
             document.getElementById("background-hero").style.display = "none"; // Скрываем героя
+
+            // Восстанавливаем изображение персонажа на главном экране
+            document.getElementById("hero-img").src = hero.image;
         }
 
         // Открыть PvP экран
