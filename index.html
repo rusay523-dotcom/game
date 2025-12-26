@@ -7,7 +7,7 @@
     <style>
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             background-image: url('https://raw.githubusercontent.com/rusay523-dotcom/game/main/gym_bg.png'); /* Новый правильный URL */
             background-size: cover;
             background-position: center;
@@ -17,53 +17,60 @@
             align-items: center;
             color: white;
             text-align: center;
+            overflow: hidden;
         }
 
         .container {
             position: relative;
             width: 100%;
-            max-width: 400px;
+            max-width: 450px;
             padding: 20px;
             box-sizing: border-box;
-            background-color: rgba(0, 0, 0, 0.7);
-            border-radius: 15px;
+            background: rgba(0, 0, 0, 0.6); /* Добавим полупрозрачный фон */
+            border-radius: 25px;
             z-index: 2;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.7);
         }
 
         h1 {
-            font-size: 32px;
-            margin-bottom: 20px;
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            color: #ffbb33; /* Яркий оранжевый для заголовка */
         }
 
         .hero {
-            width: 120px;
-            height: 120px;
+            width: 130px;
+            height: 130px;
             border-radius: 50%;
             background-color: #ecf0f1;
             margin: 20px auto;
             transition: transform 0.5s ease-in-out;
+            border: 5px solid #ffbb33; /* Добавляем стильную рамку */
         }
 
         .buttons button {
             background-color: #2196f3;
             padding: 12px;
             font-size: 18px;
-            border-radius: 12px;
+            border-radius: 20px;
             border: none;
             cursor: pointer;
             color: white;
             width: 100%;
             margin: 10px 0;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, transform 0.3s;
         }
 
-        button:hover {
+        .buttons button:hover {
             background-color: #0b7dda;
+            transform: translateY(-2px); /* Плавный эффект при наведении */
         }
 
         .stats {
-            font-size: 18px;
-            margin: 10px 0;
+            font-size: 20px;
+            margin: 20px 0;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
         }
 
         .menu-container {
@@ -85,21 +92,36 @@
         }
 
         .character-selection img {
-            width: 100px;
-            height: 100px;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
             cursor: pointer;
+            border: 3px solid #2196f3;
+            transition: transform 0.3s;
         }
 
-        /* Позиционируем героя на заднем плане */
+        .character-selection img:hover {
+            transform: scale(1.1); /* Легкое увеличение при наведении */
+        }
+
         .background-hero {
             position: absolute;
             bottom: 0;
             right: 0;
             width: 250px;
             height: auto;
-            z-index: 1; /* Герой на заднем плане */
-            display: none; /* Скрываем по умолчанию */
+            z-index: 1;
+            display: none;
+        }
+
+        /* Анимация появления */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
         }
     </style>
 </head>
