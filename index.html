@@ -66,6 +66,14 @@
         .pvp-battle, .shop-menu {
             display: none;
         }
+
+        .menu-container {
+            display: block;
+        }
+
+        .selected-hero-container {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -73,8 +81,8 @@
     <div class="container">
         <h1>💪 Прокачка и PvP</h1>
 
-        <!-- Стартовый экран с одним бойцом -->
-        <div id="start-screen">
+        <!-- Главное меню -->
+        <div class="menu-container" id="start-screen">
             <div id="hero" class="hero"></div>
             <p class="stats">Сила: <span id="strength">5</span>, Здоровье: 20</p>
             <div class="buttons">
@@ -85,7 +93,7 @@
         </div>
 
         <!-- Статистика выбранного героя -->
-        <div id="selected-hero" style="display: none;">
+        <div class="selected-hero-container" id="selected-hero">
             <h2>Ваш выбранный боец:</h2>
             <div id="selected-hero-img" class="hero"></div>
             <p class="stats">Сила: <span id="selected-strength">5</span>, Здоровье: 20</p>
@@ -93,7 +101,7 @@
         </div>
 
         <!-- Магазин -->
-        <div class="shop-menu">
+        <div class="shop-menu" id="shop-menu">
             <h2>Магазин бойцов</h2>
             <p>Выберите нового бойца:</p>
             <button onclick="buyHero(5, 20, 'hero')">Слабый Качок (5 Сила, 20 Здоровье)</button>
@@ -156,8 +164,11 @@
             hero.strength = strength;
             hero.health = health;
             hero.image = image;
+
+            // Показываем выбранного героя, но главное меню оставляем
             document.getElementById("selected-hero").style.display = "block";
-            document.querySelector(".shop-menu").style.display = "none";
+            document.getElementById("start-screen").style.display = "block"; // Главное меню остаётся
+            document.querySelector(".shop-menu").style.display = "none"; // Скрываем магазин
             document.getElementById("selected-hero-img").className = image;
             updateStats();
         }
@@ -179,6 +190,3 @@
         document.getElementById("pvp-btn").addEventListener("click", openPvP);
         document.getElementById("shop-btn").addEventListener("click", openShop);
         document.getElementById("train-selected-btn").addEventListener("click", train);
-    </script>
-</body>
-</html>
