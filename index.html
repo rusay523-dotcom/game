@@ -15,7 +15,6 @@
             align-items: center;
             color: white;
             text-align: center;
-            overflow: hidden;
         }
 
         .container {
@@ -41,11 +40,7 @@
             margin-bottom: 20px;
         }
 
-        .buttons {
-            margin-top: 20px;
-        }
-
-        button {
+        .buttons button {
             background-color: #2196f3;
             padding: 12px;
             font-size: 16px;
@@ -60,32 +55,6 @@
 
         button:hover {
             background-color: #0b7dda;
-        }
-
-        .hero-card {
-            display: inline-block;
-            margin: 10px;
-            background-color: rgba(0, 0, 0, 0.6);
-            padding: 10px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            width: 100%;
-            max-width: 120px;
-        }
-
-        .hero-card img {
-            width: 100px;
-            height: auto;
-            border-radius: 10px;
-        }
-
-        .hero-card h3 {
-            font-size: 18px;
-        }
-
-        .hero-card button {
-            margin-top: 8px;
-            width: 100%;
         }
 
         #selected-hero {
@@ -109,12 +78,6 @@
             justify-content: space-around;
             flex-wrap: wrap;
         }
-
-        .pvp-info {
-            font-size: 18px;
-            margin-bottom: 20px;
-        }
-
     </style>
 </head>
 <body>
@@ -126,7 +89,7 @@
         <div id="start-screen">
             <h2>Ваш первый боец:</h2>
             <img src="hero_weak.png" alt="Качок" id="initial-hero" class="hero">
-            <p>Сила: 5, Здоровье: 20</p>
+            <p>Сила: <span id="strength">5</span>, Здоровье: 20</p>
             <div class="buttons">
                 <button onclick="train()">Прокачать</button>
                 <button onclick="openPvP()">PvP</button>
@@ -138,7 +101,7 @@
         <div id="selected-hero">
             <h2>Ваш выбранный боец:</h2>
             <img src="hero_weak.png" alt="Качок" id="selected-hero-img" class="hero">
-            <p id="hero-stats">Сила: 5, Здоровье: 20</p>
+            <p>Сила: <span id="selected-strength">5</span>, Здоровье: 20</p>
             <button onclick="train()">Прокачать</button>
         </div>
 
@@ -170,10 +133,8 @@
         <!-- ПвП -->
         <div class="pvp-battle" style="display: none;">
             <h2>PvP Бой!</h2>
-            <div class="pvp-info">
-                <p>Сила вашего героя: <span id="hero-strength">5</span></p>
-                <p>Сила противника: <span id="opponent-strength">---</span></p>
-            </div>
+            <p>Сила вашего героя: <span id="hero-strength">5</span></p>
+            <p>Сила противника: <span id="opponent-strength">---</span></p>
             <button onclick="pvpBattle()">Начать бой</button>
         </div>
     </div>
@@ -197,7 +158,8 @@
 
         // Функция для обновления статистики
         function updateStats() {
-            document.querySelector("#hero-stats").textContent = `Сила: ${hero.strength}, Здоровье: ${hero.health}`;
+            document.querySelector("#strength").textContent = hero.strength;
+            document.querySelector("#selected-strength").textContent = hero.strength;
             document.querySelector("#hero-strength").textContent = hero.strength;
         }
 
@@ -225,16 +187,4 @@
 
             document.getElementById("selected-hero").style.display = "block";
             document.querySelector(".shop-menu").style.display = "none";
-            document.getElementById("selected-hero-img").src = image;
-            updateStats();
-        }
-
-        // Функция для победы в PvP
-        function pvpBattle() {
-            let opponentStrength = parseInt(document.getElementById("opponent-strength").textContent);
-            if (hero.strength > opponentStrength) {
-                alert("Вы победили!");
-            } else {
-                alert("Вы проиграли, попробуйте снова!");
-            }
-            document.querySelector(".pvp-battle").
+            document
