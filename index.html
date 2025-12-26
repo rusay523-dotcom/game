@@ -39,14 +39,25 @@
             color: #ffbb33; /* Яркий оранжевый для заголовка */
         }
 
+        /* Жёлтый кружок */
         .hero {
             width: 130px;
             height: 130px;
+            background-color: #ffbb33; /* Жёлтый фон для круга */
             border-radius: 50%;
-            background-color: #ecf0f1;
             margin: 20px auto;
-            transition: transform 0.5s ease-in-out;
-            border: 5px solid #ffbb33; /* Добавляем стильную рамку */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.6); /* Добавим лёгкую тень */
+        }
+
+        /* Персонаж внутри жёлтого круга */
+        .hero img {
+            width: 110px;
+            height: 110px;
+            object-fit: cover; /* Персонаж будет хорошо вписан в круг */
         }
 
         .buttons button {
@@ -133,7 +144,8 @@
         <!-- Главное меню -->
         <div class="menu-container" id="start-screen">
             <div id="hero" class="hero">
-                <!-- Убираем изображение внутри блока hero -->
+                <!-- Здесь будет отображаться изображение персонажа внутри желтого круга -->
+                <img id="hero-img" src="" alt="Персонаж" />
             </div>
             <p class="stats">Сила: <span id="strength">5</span>, Здоровье: 20</p>
             <div class="buttons">
@@ -147,8 +159,8 @@
         <div class="character-selection" id="character-selection" style="display: none;">
             <h2>Выберите персонажа:</h2>
             <img src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_normal.png" alt="Качок 1" onclick="selectCharacter(5, 20, 'hero1')">
-            <img src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_normal.png" alt="Качок 2" onclick="selectCharacter(8, 30, 'hero2')">
-            <img src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_normal.png" alt="Качок 3" onclick="selectCharacter(12, 40, 'hero3')">
+            <img src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_weak.png" alt="Качок 2" onclick="selectCharacter(8, 30, 'hero2')">
+            <img src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_strong.png" alt="Качок 3" onclick="selectCharacter(12, 40, 'hero3')">
         </div>
 
         <!-- Статистика выбранного героя -->
@@ -208,6 +220,7 @@
             document.getElementById("selected-hero").style.display = "block"; 
             document.getElementById("character-selection").style.display = "none"; 
             document.getElementById("selected-hero-img").innerHTML = `<img src="${hero.image}" alt="Качок" class="hero">`;
+            document.getElementById("hero-img").src = hero.image;  // Обновляем изображение на главном экране
             updateStats();
             document.getElementById("background-hero").style.display = "block"; // Показываем персонажа на фоне
         }
