@@ -101,6 +101,7 @@
 
         #selected-hero {
             margin-top: 20px;
+            display: none;
         }
 
         .pvp-battle {
@@ -126,78 +127,19 @@
     <div class="container">
         <h1>💪 Прокачка и PvP</h1>
 
-        <!-- Меню магазина -->
-        <div class="shop-menu">
-            <h2>Выберите вашего бойца</h2>
-            <div class="heroes">
-                <!-- Качок 1 -->
-                <div class="hero-card">
-                    <img src="hero_weak.png" alt="Качок 1">
-                    <h3>Качок 1</h3>
-                    <p>Сила: 5, Здоровье: 20</p>
-                    <button onclick="buyHero(0)">Купить за 100</button>
-                </div>
-
-                <!-- Качок 2 -->
-                <div class="hero-card">
-                    <img src="hero_normal.png" alt="Качок 2">
-                    <h3>Качок 2</h3>
-                    <p>Сила: 10, Здоровье: 30</p>
-                    <button onclick="buyHero(1)">Купить за 200</button>
-                </div>
-
-                <!-- Качок 3 -->
-                <div class="hero-card">
-                    <img src="hero_strong.png" alt="Качок 3">
-                    <h3>Качок 3</h3>
-                    <p>Сила: 15, Здоровье: 40</p>
-                    <button onclick="buyHero(2)">Купить за 300</button>
-                </div>
+        <!-- Стартовый экран с одним бойцом -->
+        <div id="start-screen">
+            <h2>Ваш первый боец:</h2>
+            <img src="hero_weak.png" alt="Качок" id="initial-hero" class="hero">
+            <p>Сила: 5, Здоровье: 20</p>
+            <div class="buttons">
+                <button onclick="train()">Прокачать</button>
+                <button onclick="openPvP()">PvP</button>
+                <button onclick="openShop()">Магазин</button>
             </div>
         </div>
 
         <!-- Статистика выбранного героя -->
         <div id="selected-hero">
             <h2>Ваш выбранный боец:</h2>
-            <img src="" id="hero-img" alt="Ваш боец">
-            <p id="hero-name"></p>
-            <p id="hero-strength"></p>
-            <p id="hero-health"></p>
-            <p id="hero-level"></p>
-            <button onclick="train()">Прокачать</button>
-            <button onclick="startPvP()">Начать бой</button>
-        </div>
-
-        <!-- PvP битва -->
-        <div class="pvp-battle" id="pvp-battle">
-            <h2>Сражение PvP</h2>
-            <p id="battle-result"></p>
-            <button onclick="resetBattle()">Начать новый бой</button>
-        </div>
-    </div>
-
-    <script>
-        const heroes = [
-            { id: "hero1", name: "Качок 1", img: "hero_weak.png", strength: 5, health: 20, level: 1, price: 100 },
-            { id: "hero2", name: "Качок 2", img: "hero_normal.png", strength: 10, health: 30, level: 1, price: 200 },
-            { id: "hero3", name: "Качок 3", img: "hero_strong.png", strength: 15, health: 40, level: 1, price: 300 }
-        ];
-
-        let userCurrency = 500;  // Начальная валюта
-        let selectedHero = null;
-
-        function buyHero(heroIndex) {
-            const hero = heroes[heroIndex];
-
-            if (userCurrency >= hero.price) {
-                userCurrency -= hero.price;
-                alert(`Вы купили ${hero.name} за ${hero.price} монет.`);
-                selectHero(hero);
-            } else {
-                alert("У вас недостаточно монет!");
-            }
-        }
-
-        function selectHero(hero) {
-            // Отображаем выбранного героя
-            document.getElementById("hero-img").src =
+            <img s
