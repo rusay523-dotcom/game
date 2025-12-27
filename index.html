@@ -3,44 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PvP Бой: Удар, Защита, Специальная атака</title>
+    <title>PvP Бой: Уникальные Способности</title>
     <style>
         body {
             margin: 0;
             font-family: 'Arial', sans-serif;
-            background-image: url('https://raw.githubusercontent.com/rusay523-dotcom/game/main/gym_bg.png');
-            background-size: cover;
-            background-position: center;
+            background-color: #1e1e1e;
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             color: white;
             text-align: center;
-            overflow: hidden;
         }
 
         .container {
             position: relative;
-            width: 100%;
-            max-width: 600px;
+            width: 80%;
+            max-width: 700px;
             padding: 30px;
             box-sizing: border-box;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.7);
             border-radius: 25px;
             z-index: 2;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
         h1 {
-            font-size: 28px;
+            font-size: 32px;
             font-weight: bold;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
             color: #ffbb33;
-            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
         }
 
         .player-container {
@@ -61,6 +58,7 @@
             align-items: center;
             overflow: hidden;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+            transition: transform 0.3s ease;
         }
 
         .hero img {
@@ -69,13 +67,17 @@
             object-fit: cover;
         }
 
+        .hero:hover {
+            transform: scale(1.2);
+        }
+
         .health-bar {
             width: 80%;
             height: 20px;
             background-color: #555;
             border-radius: 10px;
             margin: 10px auto;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.7);
         }
 
         .health {
@@ -96,6 +98,7 @@
             width: 100%;
             margin: 10px 0;
             transition: background-color 0.3s, transform 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.7);
         }
 
         .buttons button:hover {
@@ -105,7 +108,7 @@
 
         .battle-result {
             margin-top: 20px;
-            font-size: 18px;
+            font-size: 20px;
             color: #ffbb33;
         }
 
@@ -115,12 +118,37 @@
             color: #ffbb33;
             margin-top: 15px;
         }
+
+        .animation-effect {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 40px;
+            color: #ffbb33;
+            animation: flash 0.5s ease-in-out;
+        }
+
+        @keyframes flash {
+            0% {
+                opacity: 0;
+                transform: scale(0);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0);
+            }
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>💥 PvP: Удар, Защита, Специальная атака</h1>
+        <h1>💥 PvP: Уникальные Способности</h1>
 
         <!-- Игрок и Противник -->
         <div class="player-container">
@@ -181,10 +209,12 @@
         function battle(playerChoice, opponentChoice) {
             let result = '';
             let damage = 0;
+            let actionText = '';
 
             if (playerChoice === opponentChoice) {
                 result = "Ничья!";
                 damage = 0; // Нет урона
+                actionText = `Вы выбрали: ${playerChoice}, Противник выбрал: ${opponentChoice}`;
             } else if (
                 (playerChoice === 'strike' && opponentChoice === 'defend') ||
                 (playerChoice === 'defend' && opponentChoice === 'special') ||
@@ -192,14 +222,19 @@
             ) {
                 result = "Вы победили!";
                 damage = hero.strength; // Урон от силы героя
+                actionText = `Вы выбрали: ${playerChoice}, Противник выбрал: ${opponentChoice}`;
             } else {
                 result = "Вы проиграли!";
                 damage = opponent.strength; // Урон от силы противника
+                actionText = `Вы выбрали: ${playerChoice}, Противник выбрал: ${opponentChoice}`;
             }
 
             // Обновляем результат боя
             document.getElementById('battle-result').textContent = `${result} ${damage > 0 ? `Нанесено урона: ${damage}` : ''}`;
-            document.getElementById('action-text').textContent = `Вы выбрали: ${playerChoice}, Противник выбрал: ${opponentChoice}`;
+            document.getElementById('action-text').textContent = actionText;
+
+            // Создание анимации для эффекта
+            createAnimationEffect(result);
 
             updateHealth(damage, result);
         }
@@ -227,8 +262,19 @@
         // Выбор игрока
         function playerChoice(choice) {
             const opponentChoice = generateOpponentChoice(); // Противник делает свой выбор
-            console.log(`Вы выбрали: ${choice}, Противник выбрал: ${opponentChoice}`);
             battle(choice, opponentChoice); // Сравниваем выборы и считаем результат
+        }
+
+        // Создание анимации эффекта
+        function createAnimationEffect(result) {
+            const effect = document.createElement("div");
+            effect.classList.add("animation-effect");
+            effect.textContent = result === "Вы победили!" ? "Победа!" : "Проигрыш!";
+            document.body.appendChild(effect);
+
+            setTimeout(() => {
+                effect.remove();
+            }, 500);
         }
 
         // Кнопка назад
