@@ -188,21 +188,21 @@
     </div>
 
     <script>
+        // Очистка localStorage при загрузке страницы (это сбросит все данные о персонаже)
+        localStorage.removeItem('hero');
+
         // Инициализация данных персонажа
         function getHeroData() {
-            let hero = JSON.parse(localStorage.getItem('hero'));
-            if (!hero) {
-                // Если данных нет в localStorage, задаём начальные значения
-                hero = {
-                    name: "Качок",
-                    strength: 7,
-                    health: 70,
-                    image: "https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_normal.png",
-                    lastTrainTime: 0,
-                    trainCount: 0
-                };
-                localStorage.setItem('hero', JSON.stringify(hero)); // Сохраняем в localStorage
-            }
+            // Начальные данные персонажа
+            let hero = {
+                name: "Качок",
+                strength: 5,
+                health: 100,
+                image: "https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_normal.png",
+                lastTrainTime: 0,
+                trainCount: 0
+            };
+            localStorage.setItem('hero', JSON.stringify(hero)); // Сохраняем в localStorage
             return hero;
         }
 
