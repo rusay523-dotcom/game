@@ -222,7 +222,7 @@
                     <p>Сила: 5</p>
                     <p>Цена: 20 силы</p>
                 </div>
-                <button onclick="buyHero(5, 100, 'https://raw.githubusercontent.com/rusay523-dotcom/game/main/pers.png')">Купить</button>
+                <button onclick="buyHero(5, 'https://raw.githubusercontent.com/rusay523-dotcom/game/main/pers.png')">Купить</button>
             </div>
 
             <!-- Персонаж 2 -->
@@ -235,7 +235,7 @@
                     <p>Сила: 8</p>
                     <p>Цена: 30 силы</p>
                 </div>
-                <button onclick="buyHero(8, 100, 'https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_weak.png')">Купить</button>
+                <button onclick="buyHero(8, 'https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_weak.png')">Купить</button>
             </div>
 
             <!-- Персонаж 3 -->
@@ -248,7 +248,7 @@
                     <p>Сила: 12</p>
                     <p>Цена: 40 силы</p>
                 </div>
-                <button onclick="buyHero(12, 100, 'https://raw.githubusercontent.com/rusay523-dotcom/game/main/pers2.png')">Купить</button>
+                <button onclick="buyHero(12, 'https://raw.githubusercontent.com/rusay523-dotcom/game/main/pers2.png')">Купить</button>
             </div>
 
             <button onclick="goBack()">Назад</button>
@@ -276,8 +276,8 @@
     </div>
 
     <script>
-        // Загрузка данных персонажа из localStorage
-        let hero = JSON.parse(localStorage.getItem('hero')) || {
+        // Сохраняем состояние персонажа в переменной
+        let hero = {
             name: "Качок",
             strength: 5,
             health: 100,
@@ -286,38 +286,38 @@
             trainCount: 0
         };
 
-        // Функция обновления статистики
+        // Обновляем статистику (сила, здоровье, фото)
         function updateStats() {
             document.getElementById("strength").textContent = hero.strength;
             document.getElementById("health").textContent = hero.health;
             document.getElementById("selected-strength").textContent = hero.strength;
             document.getElementById("hero-strength").textContent = hero.strength;
-            document.getElementById("hero-img").src = hero.image; // Обновляем фото
+            document.getElementById("hero-img").src = hero.image; // Обновляем фото персонажа
         }
 
-        // Показываем экран выбора персонажа
+        // Показываем экран с выбранным персонажем
         function showCharacterSelection() {
             hideAllScreens();
             document.getElementById("selected-hero").style.display = "block";
         }
 
-        // Открываем PvP
+        // Открыть PvP
         function openPvP() {
             hideAllScreens();
             document.querySelector(".pvp-battle").style.display = "block";
         }
 
-        // Открываем магазин
+        // Открыть магазин
         function openShop() {
             hideAllScreens();
             document.querySelector(".shop-menu").style.display = "block";
         }
 
-        // Возвращаемся на главный экран
+        // Вернуться назад
         function goBack() {
             hideAllScreens();
             document.getElementById("start-screen").style.display = "block";
-            updateStats(); // Обновляем данные на главном экране
+            updateStats(); // Обновляем статистику на главном экране
         }
 
         // Скрыть все экраны
@@ -328,12 +328,11 @@
             document.querySelector(".pvp-battle").style.display = "none";
         }
 
-        // Функция покупки персонажа
-        function buyHero(strength, health, image) {
+        // Покупка нового персонажа
+        function buyHero(strength, image) {
             if (hero.strength >= strength) {
                 hero.strength -= strength;
-                hero.image = image;  // Обновляем изображение при покупке нового персонажа
-                localStorage.setItem('hero', JSON.stringify(hero)); // Сохраняем персонажа в localStorage
+                hero.image = image;  // Обновляем фото при покупке нового персонажа
                 updateStats(); // Обновляем статистику на экране
                 alert("Персонаж куплен!");
             } else {
@@ -341,7 +340,7 @@
             }
         }
 
-        // Функция прокачки
+        // Прокачка персонажа
         function trainHero() {
             const currentTime = new Date().getTime();
             const timeDifference = (currentTime - hero.lastTrainTime) / 1000;
@@ -355,21 +354,19 @@
                 hero.strength += 2;
                 hero.trainCount += 1;
                 hero.lastTrainTime = currentTime;
-                localStorage.setItem('hero', JSON.stringify(hero)); // Сохраняем персонажа
                 updateStats();
             } else {
                 alert("Сила уже максимальна!");
             }
         }
 
-        // Функция PvP
+        // PvP бой
         function pvpBattle() {
             let opponentStrength = Math.floor(Math.random() * 10) + 5;
             let battleResult = hero.strength >= opponentStrength ? "Вы победили!" : "Вы проиграли!";
 
             if (battleResult === "Вы проиграли!") {
                 hero.health -= 10;  // Здоровье уменьшается при поражении в PvP
-                localStorage.setItem('hero', JSON.stringify(hero)); // Сохраняем обновленное здоровье
                 updateStats();
             }
 
@@ -381,4 +378,3 @@
     </script>
 </body>
 </html>
-
