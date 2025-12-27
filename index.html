@@ -23,45 +23,85 @@
         .container {
             position: relative;
             width: 100%;
-            max-width: 400px;
-            padding: 15px;
+            max-width: 500px;
+            padding: 20px;
             box-sizing: border-box;
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.8);
             border-radius: 25px;
             z-index: 2;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.7);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .container:hover {
+            transform: scale(1.05);
         }
 
         h1 {
-            font-size: 30px;
+            font-size: 32px;
             font-weight: bold;
             margin-bottom: 20px;
             color: #ffbb33;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
         }
 
         .hero {
-            width: 110px;
-            height: 110px;
+            width: 140px;
+            height: 140px;
             background-color: #ffbb33;
             border-radius: 50%;
-            margin: 15px auto;
+            margin: 20px auto;
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+            transition: transform 0.3s ease;
         }
 
         .hero img {
-            width: 90px;
-            height: 90px;
+            width: 100px;
+            height: 100px;
             object-fit: cover;
+        }
+
+        .hero:hover {
+            transform: scale(1.1);
+        }
+
+        .stats-container {
+            margin-top: 30px;
+        }
+
+        .stat-card {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            transition: background-color 0.3s ease;
+        }
+
+        .stat-card:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .stat-card p {
+            font-size: 18px;
+        }
+
+        .stat-card h3 {
+            font-size: 22px;
+            color: #ffbb33;
         }
 
         .buttons button {
             background-color: #2196f3;
-            padding: 10px;
-            font-size: 16px;
+            padding: 12px;
+            font-size: 18px;
             border-radius: 20px;
             border: none;
             cursor: pointer;
@@ -69,6 +109,7 @@
             width: 100%;
             margin: 10px 0;
             transition: background-color 0.3s, transform 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
 
         .buttons button:hover {
@@ -76,115 +117,59 @@
             transform: translateY(-2px);
         }
 
-        .stats {
-            font-size: 18px;
-            margin: 15px 0;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background-color: #555;
+            border-radius: 10px;
+            margin-top: 10px;
         }
 
-        .menu-container {
-            display: block;
+        .progress-bar .progress {
+            height: 100%;
+            width: 0%;
+            background-color: #ffbb33;
+            border-radius: 10px;
+            transition: width 0.5s ease-in-out;
         }
 
-        .selected-hero-container, .pvp-battle, .shop-menu {
-            display: none;
-        }
-
-        .shop-item {
+        .buttons-container {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-            padding: 8px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
+            margin-top: 20px;
         }
 
-        .shop-item .hero {
-            width: 80px;
-            height: 80px;
-        }
-
-        .shop-item .hero img {
-            width: 80px;
-            height: 80px;
-        }
-
-        .shop-item .info {
-            flex: 1;
-            margin-left: 10px;
-            text-align: left;
-        }
-
-        .shop-item .info h3 {
-            margin: 0;
-            font-size: 16px;
-        }
-
-        .shop-item .info p {
-            margin: 3px 0;
-            font-size: 14px;
-        }
-
-        .shop-item button {
-            background-color: #2196f3;
-            color: white;
-            padding: 8px 15px;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .shop-item button:hover {
-            background-color: #0b7dda;
+        .buttons-container button {
+            width: 48%;
         }
 
         @media (max-width: 600px) {
             .container {
-                max-width: 350px;
-            }
-
-            .hero {
-                width: 100px;
-                height: 100px;
-            }
-
-            .hero img {
-                width: 80px;
-                height: 80px;
+                max-width: 90%;
+                padding: 15px;
             }
 
             h1 {
-                font-size: 24px;
-                margin-bottom: 15px;
+                font-size: 28px;
+            }
+
+            .hero {
+                width: 120px;
+                height: 120px;
             }
 
             .buttons button {
+                font-size: 16px;
+                padding: 10px;
+            }
+
+            .stat-card {
+                padding: 15px;
+            }
+
+            .buttons-container button {
                 font-size: 14px;
                 padding: 8px;
-            }
-
-            .shop-item .hero {
-                width: 70px;
-                height: 70px;
-            }
-
-            .shop-item .hero img {
-                width: 70px;
-                height: 70px;
-            }
-
-            .shop-item .info h3 {
-                font-size: 14px;
-            }
-
-            .shop-item .info p {
-                font-size: 12px;
-            }
-
-            .shop-item button {
-                padding: 6px 12px;
             }
         }
     </style>
@@ -192,91 +177,39 @@
 <body>
 
     <div class="container">
-        <h1>💪 Прокачка и PvP</h1>
+        <h1>💪 Мой Персонаж</h1>
 
-        <!-- Главное меню -->
-        <div class="menu-container" id="start-screen">
-            <div id="hero" class="hero">
-                <img id="hero-img" src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_normal.png" alt="Персонаж" />
+        <div id="hero" class="hero">
+            <img id="hero-img" src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_normal.png" alt="Персонаж" />
+        </div>
+
+        <div class="stats-container">
+            <div class="stat-card">
+                <h3>Сила</h3>
+                <p id="strength">5</p>
             </div>
-            <p class="stats">Сила: <span id="strength">5</span>, Здоровье: <span id="health">100</span></p>
-            <div class="buttons">
-                <button id="my-character-btn" onclick="showCharacterSelection()">Мой персонаж</button>
-                <button id="pvp-btn" onclick="openPvP()">PvP</button>
-                <button id="shop-btn" onclick="openShop()">Магазин</button>
+
+            <div class="stat-card">
+                <h3>Здоровье</h3>
+                <p id="health">100</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Прогресс Прокачки</h3>
+                <div class="progress-bar">
+                    <div class="progress" id="progress-bar"></div>
+                </div>
             </div>
         </div>
 
-        <!-- Магазин -->
-        <div class="shop-menu" id="shop-menu">
-            <h2>Магазин бойцов</h2>
-            <p>Выберите нового бойца:</p>
-
-            <!-- Персонаж 1 -->
-            <div class="shop-item">
-                <div class="hero">
-                    <img src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/pers.png" alt="Персонаж 1">
-                </div>
-                <div class="info">
-                    <h3>Броня</h3>
-                    <p>Сила: 5</p>
-                    <p>Цена: 20 силы</p>
-                </div>
-                <button onclick="buyHero(5, 'https://raw.githubusercontent.com/rusay523-dotcom/game/main/pers.png')">Купить</button>
-            </div>
-
-            <!-- Персонаж 2 -->
-            <div class="shop-item">
-                <div class="hero">
-                    <img src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_weak.png" alt="Персонаж 2">
-                </div>
-                <div class="info">
-                    <h3>Титан</h3>
-                    <p>Сила: 8</p>
-                    <p>Цена: 30 силы</p>
-                </div>
-                <button onclick="buyHero(8, 'https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_weak.png')">Купить</button>
-            </div>
-
-            <!-- Персонаж 3 -->
-            <div class="shop-item">
-                <div class="hero">
-                    <img src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/pers2.png" alt="Рок">
-                </div>
-                <div class="info">
-                    <h3>Рок</h3>
-                    <p>Сила: 12</p>
-                    <p>Цена: 40 силы</p>
-                </div>
-                <button onclick="buyHero(12, 'https://raw.githubusercontent.com/rusay523-dotcom/game/main/pers2.png')">Купить</button>
-            </div>
-
-            <button onclick="goBack()">Назад</button>
-        </div>
-
-        <!-- Статистика выбранного героя -->
-        <div class="selected-hero-container" id="selected-hero">
-            <h2>Ваш выбранный боец:</h2>
-            <div id="selected-hero-img" class="hero">
-                <img src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_normal.png" alt="Персонаж">
-            </div>
-            <p class="stats">Сила: <span id="selected-strength">5</span>, Здоровье: 100</p>
+        <div class="buttons">
             <button onclick="trainHero()">Прокачать</button>
-            <button onclick="goBack()">Назад</button>
-        </div>
-
-        <!-- PvP -->
-        <div class="pvp-battle">
-            <h2>PvP Бой!</h2>
-            <p>Сила вашего героя: <span id="hero-strength"></span></p>
-            <p>Сила противника: <span id="opponent-strength">---</span></p>
-            <button onclick="pvpBattle()">Начать бой</button>
             <button onclick="goBack()">Назад</button>
         </div>
     </div>
 
     <script>
-        // Инициализация данных персонажа
+        // Получаем данные персонажа из localStorage
         let hero = JSON.parse(localStorage.getItem('hero')) || {
             name: "Качок",
             strength: 5,
@@ -286,59 +219,15 @@
             trainCount: 0
         };
 
-        // Обновление статистики
+        // Обновляем статистику
         function updateStats() {
             document.getElementById("strength").textContent = hero.strength;
             document.getElementById("health").textContent = hero.health;
-            document.getElementById("selected-strength").textContent = hero.strength;
-            document.getElementById("hero-strength").textContent = hero.strength;
-            document.getElementById("hero-img").src = hero.image; // Обновляем фото
-        }
+            document.getElementById("hero-img").src = hero.image;
 
-        // Показать экран с персонажем
-        function showCharacterSelection() {
-            hideAllScreens();
-            document.getElementById("selected-hero").style.display = "block";
-        }
-
-        // Открыть PvP
-        function openPvP() {
-            hideAllScreens();
-            document.querySelector(".pvp-battle").style.display = "block";
-        }
-
-        // Открыть магазин
-        function openShop() {
-            hideAllScreens();
-            document.querySelector(".shop-menu").style.display = "block";
-        }
-
-        // Вернуться назад
-        function goBack() {
-            hideAllScreens();
-            document.getElementById("start-screen").style.display = "block";
-            updateStats(); // Обновляем данные
-        }
-
-        // Скрыть все экраны
-        function hideAllScreens() {
-            document.getElementById("start-screen").style.display = "none";
-            document.getElementById("selected-hero").style.display = "none";
-            document.querySelector(".shop-menu").style.display = "none";
-            document.querySelector(".pvp-battle").style.display = "none";
-        }
-
-        // Покупка нового персонажа
-        function buyHero(strength, image) {
-            if (hero.strength >= strength) {
-                hero.strength -= strength;
-                hero.image = image; // Обновляем фото
-                localStorage.setItem('hero', JSON.stringify(hero)); // Сохраняем в localStorage
-                updateStats(); // Обновляем статистику на экране
-                alert("Персонаж куплен!");
-            } else {
-                alert("У вас недостаточно силы для покупки!");
-            }
+            // Обновляем прогресс бар (пример)
+            const progress = (hero.strength / 50) * 100;
+            document.getElementById("progress-bar").style.width = `${progress}%`;
         }
 
         // Прокачка персонажа
@@ -355,25 +244,16 @@
                 hero.strength += 2;
                 hero.trainCount += 1;
                 hero.lastTrainTime = currentTime;
-                localStorage.setItem('hero', JSON.stringify(hero)); // Сохраняем в localStorage
-                updateStats();
+                localStorage.setItem('hero', JSON.stringify(hero)); // Сохраняем персонажа в localStorage
+                updateStats(); // Обновляем данные на экране
             } else {
                 alert("Сила уже максимальна!");
             }
         }
 
-        // PvP бой
-        function pvpBattle() {
-            let opponentStrength = Math.floor(Math.random() * 10) + 5;
-            let battleResult = hero.strength >= opponentStrength ? "Вы победили!" : "Вы проиграли!";
-
-            if (battleResult === "Вы проиграли!") {
-                hero.health -= 10; // Здоровье уменьшается при поражении в PvP
-                localStorage.setItem('hero', JSON.stringify(hero)); // Сохраняем обновленное здоровье
-                updateStats();
-            }
-
-            alert(battleResult);
+        // Вернуться назад
+        function goBack() {
+            window.history.back();
         }
 
         // Инициализация
