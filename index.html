@@ -297,3 +297,58 @@
             </div>
 
             <div class="stats-container">
+                <div class="stat-card">
+                    <h3>Сила</h3>
+                    <p id="strength">5</p>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Здоровье</h3>
+                    <p id="health">100</p>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Прогресс Прокачки</h3>
+                    <div class="progress-bar">
+                        <div class="progress" id="progress-bar"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="buttons">
+                <button id="back-btn">Назад</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Ожидаем загрузки DOM перед привязкой событий
+        document.addEventListener('DOMContentLoaded', function () {
+            // Привязываем обработчики событий
+            document.getElementById('btn-character').addEventListener('click', showCharacterSelection);
+            document.getElementById('btn-pvp').addEventListener('click', openPvP);
+            document.getElementById('btn-shop').addEventListener('click', openShop);
+            document.getElementById('back-btn').addEventListener('click', goBack);
+        });
+
+        function showCharacterSelection() {
+            document.getElementById('start-screen').style.display = 'none';
+            document.getElementById('selected-hero').style.display = 'block';
+        }
+
+        function openPvP() {
+            alert('PvP функционал ещё не реализован!');
+        }
+
+        function openShop() {
+            alert('Магазин ещё не реализован!');
+        }
+
+        function goBack() {
+            document.getElementById('selected-hero').style.display = 'none';
+            document.getElementById('start-screen').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
