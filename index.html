@@ -30,7 +30,6 @@
             border-radius: 25px;
             z-index: 2;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
-            transition: transform 0.3s ease-in-out;
         }
 
         h1 {
@@ -52,7 +51,6 @@
             align-items: center;
             overflow: hidden;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
-            transition: transform 0.3s ease;
         }
 
         .hero img {
@@ -100,7 +98,6 @@
             width: 100%;
             margin: 10px 0;
             transition: background-color 0.3s, transform 0.3s;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
 
         .buttons button:hover {
@@ -132,42 +129,6 @@
 
         .buttons-container button {
             width: 48%;
-        }
-
-        /* Мобильные стили */
-        @media (max-width: 600px) {
-            .container {
-                max-width: 90%;
-                padding: 15px;
-            }
-
-            h1 {
-                font-size: 22px;
-            }
-
-            .hero {
-                width: 100px;
-                height: 100px;
-            }
-
-            .hero img {
-                width: 70px;
-                height: 70px;
-            }
-
-            .buttons button {
-                font-size: 14px;
-                padding: 10px;
-            }
-
-            .stat-card {
-                padding: 12px;
-            }
-
-            .buttons-container button {
-                font-size: 14px;
-                padding: 8px;
-            }
         }
     </style>
 </head>
@@ -227,15 +188,25 @@
     </div>
 
     <script>
-        // Загружаем данные о персонаже из localStorage
-        let hero = JSON.parse(localStorage.getItem('hero')) || {
-            name: "Качок",
-            strength: 7,
-            health: 70,
-            image: "https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_normal.png",
-            lastTrainTime: 0,
-            trainCount: 0
-        };
+        // Инициализация данных персонажа
+        function getHeroData() {
+            let hero = JSON.parse(localStorage.getItem('hero'));
+            if (!hero) {
+                // Если данных нет в localStorage, задаём начальные значения
+                hero = {
+                    name: "Качок",
+                    strength: 7,
+                    health: 70,
+                    image: "https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_normal.png",
+                    lastTrainTime: 0,
+                    trainCount: 0
+                };
+                localStorage.setItem('hero', JSON.stringify(hero)); // Сохраняем в localStorage
+            }
+            return hero;
+        }
+
+        let hero = getHeroData(); // Получаем данные персонажа
 
         // Функция обновления статистики
         function updateStats() {
@@ -247,13 +218,12 @@
             document.getElementById("progress-bar").style.width = `${progress}%`;
         }
 
-        // Проверка времени прокачки
+        // Проверка, можно ли прокачивать персонажа (проверка времени)
         function canTrain() {
             const currentTime = new Date().getTime();
             const timeDifference = (currentTime - hero.lastTrainTime) / 1000; // разница в секундах
 
-            // Если прошло меньше 30 минут
-            if (timeDifference < 1800) {
+            if (timeDifference < 1800) { // Если прошло меньше 30 минут
                 alert("Вы можете прокачать персонажа только раз в 30 минут.");
                 return false;
             }
@@ -268,8 +238,8 @@
             hero.trainCount += 1; // Увеличиваем количество прокачек
             hero.lastTrainTime = new Date().getTime(); // Обновляем время последней прокачки
 
-            localStorage.setItem('hero', JSON.stringify(hero)); // Сохраняем данные
-            updateStats(); // Обновляем статистику
+            localStorage.setItem('hero', JSON.stringify(hero)); // Сохраняем данные в localStorage
+            updateStats(); // Обновляем статистику на экране
         }
 
         // Привязываем события
@@ -282,6 +252,7 @@
             document.getElementById('train-btn').addEventListener('click', trainHero);
         });
 
+        // Функции экранов
         function showCharacterSelection() {
             document.getElementById('start-screen').style.display = 'none';
             document.getElementById('selected-hero').style.display = 'block';
@@ -300,7 +271,7 @@
             document.getElementById('start-screen').style.display = 'block';
         }
 
-        // Инициализируем экран
+        // Инициализация экрана с актуальными данными
         updateStats();
     </script>
 </body>
