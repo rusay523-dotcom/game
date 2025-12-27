@@ -227,11 +227,11 @@
     </div>
 
     <script>
-        // Инициализация данных персонажа
+        // Загружаем данные о персонаже из localStorage
         let hero = JSON.parse(localStorage.getItem('hero')) || {
             name: "Качок",
-            strength: 5,
-            health: 100,
+            strength: 7,
+            health: 70,
             image: "https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_normal.png",
             lastTrainTime: 0,
             trainCount: 0
@@ -260,7 +260,7 @@
             return true;
         }
 
-        // Функция для прокачки персонажа
+        // Функция прокачки персонажа
         function trainHero() {
             if (!canTrain()) return; // Проверяем, можно ли прокачать
 
