@@ -176,40 +176,115 @@
 </head>
 <body>
 
-    <div class="container">
-        <h1>💪 Мой Персонаж</h1>
+    <div class="container" id="main-container">
+        <!-- Главное меню -->
+        <div class="menu-container" id="start-screen">
+            <h1>💪 Прокачка и PvP</h1>
 
-        <div id="hero" class="hero">
-            <img id="hero-img" src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_normal.png" alt="Персонаж" />
+            <div id="hero" class="hero">
+                <img id="hero-img" src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_normal.png" alt="Персонаж" />
+            </div>
+
+            <p class="stats">Сила: <span id="strength">5</span>, Здоровье: <span id="health">100</span></p>
+
+            <div class="buttons">
+                <button onclick="showCharacterSelection()">Мой персонаж</button>
+                <button onclick="openPvP()">PvP</button>
+                <button onclick="openShop()">Магазин</button>
+            </div>
         </div>
 
-        <div class="stats-container">
-            <div class="stat-card">
-                <h3>Сила</h3>
-                <p id="strength">5</p>
+        <!-- Мой персонаж -->
+        <div class="selected-hero-container" id="selected-hero" style="display: none;">
+            <h1>💪 Мой Персонаж</h1>
+
+            <div id="hero" class="hero">
+                <img id="hero-img" src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_normal.png" alt="Персонаж" />
             </div>
 
-            <div class="stat-card">
-                <h3>Здоровье</h3>
-                <p id="health">100</p>
-            </div>
+            <div class="stats-container">
+                <div class="stat-card">
+                    <h3>Сила</h3>
+                    <p id="strength">5</p>
+                </div>
 
-            <div class="stat-card">
-                <h3>Прогресс Прокачки</h3>
-                <div class="progress-bar">
-                    <div class="progress" id="progress-bar"></div>
+                <div class="stat-card">
+                    <h3>Здоровье</h3>
+                    <p id="health">100</p>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Прогресс Прокачки</h3>
+                    <div class="progress-bar">
+                        <div class="progress" id="progress-bar"></div>
+                    </div>
                 </div>
             </div>
+
+            <div class="buttons">
+                <button onclick="trainHero()">Прокачать</button>
+                <button onclick="goBack()">Назад</button>
+            </div>
         </div>
 
-        <div class="buttons">
-            <button onclick="trainHero()">Прокачать</button>
+        <!-- Магазин -->
+        <div class="shop-menu" id="shop-menu" style="display: none;">
+            <h2>Магазин бойцов</h2>
+            <p>Выберите нового бойца:</p>
+
+            <!-- Персонаж 1 -->
+            <div class="shop-item">
+                <div class="hero">
+                    <img src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/pers.png" alt="Персонаж 1">
+                </div>
+                <div class="info">
+                    <h3>Броня</h3>
+                    <p>Сила: 5</p>
+                    <p>Цена: 20 силы</p>
+                </div>
+                <button onclick="buyHero(5, 'https://raw.githubusercontent.com/rusay523-dotcom/game/main/pers.png')">Купить</button>
+            </div>
+
+            <!-- Персонаж 2 -->
+            <div class="shop-item">
+                <div class="hero">
+                    <img src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_weak.png" alt="Персонаж 2">
+                </div>
+                <div class="info">
+                    <h3>Титан</h3>
+                    <p>Сила: 8</p>
+                    <p>Цена: 30 силы</p>
+                </div>
+                <button onclick="buyHero(8, 'https://raw.githubusercontent.com/rusay523-dotcom/game/main/hero_weak.png')">Купить</button>
+            </div>
+
+            <!-- Персонаж 3 -->
+            <div class="shop-item">
+                <div class="hero">
+                    <img src="https://raw.githubusercontent.com/rusay523-dotcom/game/main/pers2.png" alt="Рок">
+                </div>
+                <div class="info">
+                    <h3>Рок</h3>
+                    <p>Сила: 12</p>
+                    <p>Цена: 40 силы</p>
+                </div>
+                <button onclick="buyHero(12, 'https://raw.githubusercontent.com/rusay523-dotcom/game/main/pers2.png')">Купить</button>
+            </div>
+
+            <button onclick="goBack()">Назад</button>
+        </div>
+
+        <!-- PvP -->
+        <div class="pvp-battle" id="pvp-battle" style="display: none;">
+            <h2>PvP Бой!</h2>
+            <p>Сила вашего героя: <span id="hero-strength"></span></p>
+            <p>Сила противника: <span id="opponent-strength">---</span></p>
+            <button onclick="pvpBattle()">Начать бой</button>
             <button onclick="goBack()">Назад</button>
         </div>
     </div>
 
     <script>
-        // Получаем данные персонажа из localStorage
         let hero = JSON.parse(localStorage.getItem('hero')) || {
             name: "Качок",
             strength: 5,
@@ -219,15 +294,60 @@
             trainCount: 0
         };
 
-        // Обновляем статистику
+        // Обновление статистики
         function updateStats() {
             document.getElementById("strength").textContent = hero.strength;
             document.getElementById("health").textContent = hero.health;
             document.getElementById("hero-img").src = hero.image;
 
-            // Обновляем прогресс бар (пример)
             const progress = (hero.strength / 50) * 100;
             document.getElementById("progress-bar").style.width = `${progress}%`;
+        }
+
+        // Показать экран с выбранным персонажем
+        function showCharacterSelection() {
+            hideAllScreens();
+            document.getElementById("selected-hero").style.display = "block";
+        }
+
+        // Открыть PvP
+        function openPvP() {
+            hideAllScreens();
+            document.querySelector("#pvp-battle").style.display = "block";
+        }
+
+        // Открыть магазин
+        function openShop() {
+            hideAllScreens();
+            document.querySelector("#shop-menu").style.display = "block";
+        }
+
+        // Вернуться назад
+        function goBack() {
+            hideAllScreens();
+            document.getElementById("start-screen").style.display = "block";
+            updateStats();
+        }
+
+        // Скрыть все экраны
+        function hideAllScreens() {
+            document.getElementById("start-screen").style.display = "none";
+            document.getElementById("selected-hero").style.display = "none";
+            document.querySelector("#shop-menu").style.display = "none";
+            document.querySelector("#pvp-battle").style.display = "none";
+        }
+
+        // Покупка персонажа
+        function buyHero(strength, image) {
+            if (hero.strength >= strength) {
+                hero.strength -= strength;
+                hero.image = image;
+                localStorage.setItem('hero', JSON.stringify(hero));
+                updateStats();
+                alert("Персонаж куплен!");
+            } else {
+                alert("У вас недостаточно силы для покупки!");
+            }
         }
 
         // Прокачка персонажа
@@ -244,19 +364,27 @@
                 hero.strength += 2;
                 hero.trainCount += 1;
                 hero.lastTrainTime = currentTime;
-                localStorage.setItem('hero', JSON.stringify(hero)); // Сохраняем персонажа в localStorage
-                updateStats(); // Обновляем данные на экране
+                localStorage.setItem('hero', JSON.stringify(hero));
+                updateStats();
             } else {
                 alert("Сила уже максимальна!");
             }
         }
 
-        // Вернуться назад
-        function goBack() {
-            window.history.back();
+        // PvP бой
+        function pvpBattle() {
+            let opponentStrength = Math.floor(Math.random() * 10) + 5;
+            let battleResult = hero.strength >= opponentStrength ? "Вы победили!" : "Вы проиграли!";
+
+            if (battleResult === "Вы проиграли!") {
+                hero.health -= 10;
+                localStorage.setItem('hero', JSON.stringify(hero));
+                updateStats();
+            }
+
+            alert(battleResult);
         }
 
-        // Инициализация
         updateStats();
     </script>
 </body>
